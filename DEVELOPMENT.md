@@ -1,6 +1,5 @@
 # Development Journal
 ## Week One
----
 #### Experimenting with Box2D
 
 First, I worked on compiling the actual Box2D source code which caused me a lot of head aches to begin with. My first issue was trying to use Xcode which I am not at all familiar with. this caused many difficulties when I was trying to follow tutorials which included `premake`, `cmake`, and other modules I was unfamiliar with. However, after following some YouTube tutorials and reading the issue reports in Github I was able to compile and run the example code. The included TestBed which I was able to run was extremely cool, even though it had some bugs. It was a good showcase of all the things that Box2D has to offer and many things from the physics engine are things I will need to utilize including: collisions, gravity, and friction. Looking forward I am definitely excited about my project because of the power of Box2D and I think that it will be very helpful for creating my project.
