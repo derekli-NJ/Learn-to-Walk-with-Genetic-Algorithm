@@ -9,7 +9,8 @@
 - [Box2D](https://box2d.org/) (Physics engine that will allow the modeling of the world)
 
 ## Minimum Features
-- Load in trained walker from file and will be able to present a 3 node walker that can walk on a flat surface
+- Train walker with GUI turned off
+- Load in trained walker from file and present a 3 node walker that can walk on a flat surface
 - Allow the tweaking of multiple parameters (mass, friction of nodes, and length of joints etc.)
 
 ## Plan for implementation
