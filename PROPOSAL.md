@@ -5,8 +5,8 @@
 - Walker will be various nodes connected by joints
 
 ## Technologies that will be used
-- OpenFrameworks (will create GUI and interface)
-- Box2D (Physics engine that will allow the modeling of the world)
+- [OpenFrameworks](https://openframeworks.cc/) (will create GUI and interface)
+- [Box2D](https://box2d.org/) (Physics engine that will allow the modeling of the world)
 
 ## Minimum Features
 - Load in trained walker from file and will be able to present a 3 node walker that can walk on a flat surface
@@ -16,12 +16,14 @@
 1. Create and draw bodies that need to walk
 2. Figure out how to move
 3. Design rudimentary walkers (figure out parameters that need to be tweaked)
-  Potential Parameters
-  - Friction of nodes
-  - Mass of nodes
-  - Length of joints
-  - Motion function
-  - Number of nodes
+
+     Potential Parameters
+     - Friction of nodes
+     - Mass of nodes
+     - Length of joints
+     - Motion function
+     - Number of nodes
+
 4. Implement genetic algorithm + randomization 
 5. Parameter tweaks 
 6. Environmental changes
