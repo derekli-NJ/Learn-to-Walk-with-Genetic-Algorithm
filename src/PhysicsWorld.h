@@ -12,14 +12,36 @@
 #include "Box2D/Box2D.h"
 #include "Box2D/Dynamics/b2World.h"
 #include <vector>
+#include "Walker.h"
 
 using std::vector;
 using std::shared_ptr;
 
-extern vector<b2Vec2> circlePosition;
+class World {
+    public:
+        //Constructor
+        World();
+    
+        b2Body* AddWalker(Walker walker);
+    
+        void Clear();
+        void Draw();
+        void TimeStep();
+        
+    private:
+        b2World* world;
+        const float32 timeStep = 1/20.0;      //the length of time passed to simulate (seconds)
+        const int32 velocityIterations = 8;   //how strongly to correct velocity
+        const int32 positionIterations = 3;   //how strongly to correct position
+    
+};
 
-void setup();
-//vector<b2PolygonShape> polygons;
+
+
+//extern vector<b2Vec2> circlePosition;
+//
+//void setup();
+////vector<b2PolygonShape> polygons;
 
 //vector <shared_ptr<b2PolygonShape>> polygons;
 

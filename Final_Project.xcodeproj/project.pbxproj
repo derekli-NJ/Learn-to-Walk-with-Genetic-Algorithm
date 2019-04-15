@@ -13,6 +13,7 @@
 		46A2EF0D5862147340BB3F58 /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAC4075B444333D587E3F5FA /* ofxSlider.cpp */; };
 		5D1466BC674CC8DA4F0C82EF /* ofxColorPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56658F6567013300940B2EE2 /* ofxColorPicker.cpp */; };
 		62DD8C03A600F260C6A87613 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE37E1FE3E627B1B3B86B654 /* ofxBaseGui.cpp */; };
+		7140959F226454B000033245 /* Walker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7140959D226454B000033245 /* Walker.cpp */; };
 		71675F7E2261A9650037610A /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71675F7D2261A9650037610A /* libBox2D.a */; };
 		718B74702261980F00271FEF /* PhysicsWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 718B746E2261980F00271FEF /* PhysicsWorld.cpp */; };
 		72F044204A3D0534CE6D2A80 /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3AAAD0165791F659CE2C273 /* ofxSliderGroup.cpp */; };
@@ -45,6 +46,8 @@
 		56658F6567013300940B2EE2 /* ofxColorPicker.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxColorPicker.cpp; path = ../of_v0.10.1_osx_release/addons/ofxGui/src/ofxColorPicker.cpp; sourceTree = SOURCE_ROOT; };
 		595A877E43064D1F3B612C3F /* ofxGuiGroup.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxGuiGroup.cpp; path = ../of_v0.10.1_osx_release/addons/ofxGui/src/ofxGuiGroup.cpp; sourceTree = SOURCE_ROOT; };
 		60E83C9C1068C26530FF035B /* ofxPanel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxPanel.h; path = ../of_v0.10.1_osx_release/addons/ofxGui/src/ofxPanel.h; sourceTree = SOURCE_ROOT; };
+		7140959D226454B000033245 /* Walker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Walker.cpp; sourceTree = "<group>"; };
+		7140959E226454B000033245 /* Walker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Walker.h; sourceTree = "<group>"; };
 		71675F7D2261A9650037610A /* libBox2D.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBox2D.a; path = src/libBox2D.a; sourceTree = "<group>"; };
 		718B746E2261980F00271FEF /* PhysicsWorld.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsWorld.cpp; sourceTree = "<group>"; };
 		718B746F2261980F00271FEF /* PhysicsWorld.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhysicsWorld.h; sourceTree = "<group>"; };
@@ -617,6 +620,8 @@
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				718B746E2261980F00271FEF /* PhysicsWorld.cpp */,
 				718B746F2261980F00271FEF /* PhysicsWorld.h */,
+				7140959D226454B000033245 /* Walker.cpp */,
+				7140959E226454B000033245 /* Walker.h */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 			);
 			path = src;
@@ -653,7 +658,7 @@
 			attributes = {
 				LastUpgradeCheck = 1010;
 			};
-			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "Final_Project_Without_Wrapper" */;
+			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "Final_Project" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -729,6 +734,7 @@
 				A5DCA026EA3AB43D688284F0 /* ofxGuiGroup.cpp in Sources */,
 				42724FB569AC60BDDA74E6A2 /* ofxInputField.cpp in Sources */,
 				25A3E88846E34CF1D52BE92B /* ofxLabel.cpp in Sources */,
+				7140959F226454B000033245 /* Walker.cpp in Sources */,
 				F5B7FBDA56E9FD16A257049E /* ofxPanel.cpp in Sources */,
 				46A2EF0D5862147340BB3F58 /* ofxSlider.cpp in Sources */,
 				72F044204A3D0534CE6D2A80 /* ofxSliderGroup.cpp in Sources */,
@@ -1030,7 +1036,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "Final_Project_Without_Wrapper" */ = {
+		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "Final_Project" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B4E0A3A1720003C02F2 /* Debug */,

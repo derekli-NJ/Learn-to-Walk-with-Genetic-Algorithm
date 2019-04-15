@@ -11,3 +11,20 @@ After compiling and running the actual Box2D source code, I worked on the OF sna
 #### Take-Aways
 
 Looking forward, I need to become more familiar with the way that the Box2D wrapper works and figure out the best way to integrate Box2D with a GUI. I also need to narrow down which parts of the Box2D library I actually need to use since there is so much that it can do and it would be very easy to get overwhelmed.
+
+## Week Two
+#### Road-Blocks
+
+This week I realized that the OpenFrameworksBox2D wrapper does not have all of the functionality that I need. It only has distance joints while I need to have revolute joints and motors in order for my walkers to move in a controlled manner. For this reason, I have decided to not use the wrapper and directly use the Box2D library and draw the world using OFXGui.
+
+#### Progress
+
+So far, I have been working on the layout of my class structure. I have build a PhysicsWorld class and a Walker class, with a Simulation class for the future. Currently, I can generate a world in Box2D when I create a world object as well as 3 circles that will be the nodes for my walker. 
+
+#### To Do
+[x] Create Box2D world in world object
+[x] Create nodes for walker
+[ ] Bind nodes with revolute joints
+[ ] Draw everything to visually debug
+[ ] Get basic walking completed 
+[ ] Work on Simulation class for genetic algorithm
