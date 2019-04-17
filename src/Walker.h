@@ -27,9 +27,15 @@ class Walker {
         float joint_length = 1.0;
         float density = 1.0;
         float friction = 0.3;
+    
+        float lower_angle = -0.5f; //multiplied by pi
+        float upper_angle = 0.25f; //multiplied by pi
+        float damping_ratio = 1.0;
+        float frequency_hz = 0.0;
+        float max_motor_torque = 10.0;
+        float motor_speed = 1.0f;
 
         vector<vector<float>> node_locations;
-//        vector<float> edge_locations;
     
     private:
     

@@ -18,12 +18,15 @@ World::World() {
 }
 
 b2Body* World::AddWalker(Walker walker) {
+    vector<b2Body*> bodies;
+    vector<b2Vec2> positions;
     for (int i = 0; i < walker.node_count; i++) {
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(walker.node_locations[i][0], walker.node_locations[i][1]);
         b2Body* body = world -> CreateBody(&bodyDef);
         
+        bodies.push_back(body);
         //set circle
         b2CircleShape circle;
         circle.m_p.Set(walker.node_locations[i][0], walker.node_locations[i][1]);
@@ -37,13 +40,36 @@ b2Body* World::AddWalker(Walker walker) {
         body -> CreateFixture(&fixture_def);
         
         b2Vec2 position = body->GetPosition();
-//        cout << position.x << position.y << endl;
+        positions.push_back(position);
         printf("%4.2f %4.2f\n", position.x, position.y);
-        
     }
+    b2RevoluteJointDef revolute_joint;
+    revolute_joint.bodyA = bodies[0];
+    revolute_joint.bodyB = bodies[1];
+    //set to relative position (coordinate system rotates with revolution)
+    revolute_joint.localAnchorA.Set(2 * walker.node_radius + walker.joint_length, 0);
+    
+    //parameters of revolute joint
+    revolute_joint.lowerAngle = walker.lower_angle * b2_pi; // -90 degrees
+    revolute_joint.upperAngle = walker.upper_angle * b2_pi; // 45 degrees
+    revolute_joint.enableLimit = true;
+    revolute_joint.maxMotorTorque = walker.max_motor_torque;
+    revolute_joint.motorSpeed = walker.motor_speed;
+    revolute_joint.enableMotor = true;
+    b2RevoluteJoint* joint = (b2RevoluteJoint*)world->CreateJoint(&revolute_joint);
     
     
-    return nullptr;
+    
+    b2DistanceJointDef distance_joint;
+    //bodies connected to and world position of anchors
+    distance_joint.Initialize(bodies[1], bodies[2], positions[1], positions[2]);
+    distance_joint.collideConnected = true;
+    
+    //Defines softness of distance joint
+    distance_joint.dampingRatio = walker.damping_ratio;
+    distance_joint.frequencyHz = walker.frequency_hz;
+    
+    return bodies[0];
 }
 void World::TimeStep() {
     world->Step( timeStep, velocityIterations, positionIterations);
