@@ -1,25 +1,22 @@
 //
 //  physics.cpp
-//  Final_Project_Without_Wrapper
+//  Final_Project
 //
 //  Created by Derek Li on 4/12/19.
 //
 
-#include "PhysicsWorld.h"
 #include <iostream>
+#include "PhysicsWorld.h"
 using std::cout;
 using std::endl;
 
 World::World() {
 	b2Vec2 gravity(0.0f, -9.8f);
-//    b2World world(gravity);
     world = new b2World(gravity);
 	
 }
 
 b2Body* World::AddWalker(Walker walker) {
-    vector<b2Body*> bodies;
-    vector<b2Vec2> positions;
     for (int i = 0; i < walker.node_count; i++) {
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
@@ -27,6 +24,7 @@ b2Body* World::AddWalker(Walker walker) {
         b2Body* body = world -> CreateBody(&bodyDef);
         
         bodies.push_back(body);
+        
         //set circle
         b2CircleShape circle;
         circle.m_p.Set(walker.node_locations[i][0], walker.node_locations[i][1]);
@@ -41,11 +39,26 @@ b2Body* World::AddWalker(Walker walker) {
         
         b2Vec2 position = body->GetPosition();
         positions.push_back(position);
+        
+        body_draw_parameters.push_back(position.x);
+        body_draw_parameters.push_back(position.y);
+        body_draw_parameters.push_back(walker.node_radius);
         printf("%4.2f %4.2f\n", position.x, position.y);
     }
     b2RevoluteJointDef revolute_joint;
     revolute_joint.bodyA = bodies[0];
     revolute_joint.bodyB = bodies[1];
+    
+        //gets position of joints
+    for (int i = 0; i < bodies.size(); i++) {
+        b2Vec2 body_position = bodies[i]->GetPosition();
+        //    b2Vec2 body_b_position = bodies[1]->GetPosition();
+        joint_draw_parameters.push_back(body_position);
+        //    joint_draw_parameters.push_back(body_b_position);
+    }
+    
+    
+    
     //set to relative position (coordinate system rotates with revolution)
     revolute_joint.localAnchorA.Set(2 * walker.node_radius + walker.joint_length, 0);
     
@@ -79,69 +92,11 @@ void World::Clear() {
 
 }
 
-void World::Draw() {
-
+const vector<float>& World::GetBodyDrawParameters() {
+    return body_draw_parameters;
 }
 
-
-
-
-
-
-
-//vector<b2Vec2> circlePosition;
-//
-//void setup() {
-//    //Create world
-//    b2Vec2 gravity(0.0f, -9.8f);
-//    b2World world(gravity);
-//
-//    b2BodyDef groundBodyDef;
-//    groundBodyDef.position.Set(0.0f, -10.0f);
-//
-//    b2Body* groundBody = world.CreateBody(&groundBodyDef);
-//
-//    b2PolygonShape groundBox;
-//    groundBox.SetAsBox(50.0f, 10.0f);
-//    groundBody->CreateFixture(&groundBox, 0.0f);
-//
-//
-//    //Create dynamic body
-//    b2BodyDef bodyDef;
-//    bodyDef.type = b2_dynamicBody;
-//    bodyDef.position.Set(0.0f, 4.0f);
-//    b2Body* body = world.CreateBody(&bodyDef);
-//
-//    //Attach shape
-//    b2PolygonShape dynamicBox;
-//    dynamicBox.SetAsBox(1.0f, 1.0f);
-//
-//
-//    //Define fixture
-//    b2FixtureDef fixtureDef;
-//    fixtureDef.shape = &dynamicBox;
-//    fixtureDef.density = 1.0f;
-//    fixtureDef.friction = 0.3f;
-//
-//    //Create fixture
-//    body->CreateFixture(&fixtureDef);
-//
-////    world->ClearForces();
-//
-//
-//    float32 timeStep = 1.0f / 60.0f;
-//    int32 velocityIterations = 6;
-//    int32 positionIterations = 2;
-//
-//    for (int32 i = 0; i < 60; ++i)
-//    {
-//        world.Step(timeStep, velocityIterations, positionIterations);
-//        b2Vec2 position = body->GetPosition();
-//        float32 angle = body->GetAngle();
-//
-//        circlePosition.push_back(position);
-//        printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-//    }
-
-    
+const vector<b2Vec2>& World::GetJointDrawParameters() {
+    return joint_draw_parameters;
+}
 

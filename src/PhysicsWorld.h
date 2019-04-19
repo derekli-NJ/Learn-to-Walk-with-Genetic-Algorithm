@@ -23,13 +23,22 @@ class World {
         World();
     
         b2Body* AddWalker(Walker walker);
-    
         void Clear();
-        void Draw();
         void TimeStep();
+    
+        vector<float> body_draw_parameters;
+        vector<b2Vec2> joint_draw_parameters;
+    
+        const vector<float>& GetBodyDrawParameters();
+        const vector<b2Vec2>& GetJointDrawParameters();
+
         
     private:
         b2World* world;
+        vector<b2Body*> bodies;
+        vector<b2Vec2> positions;
+    
+
         const float32 timeStep = 1/20.0;      //the length of time passed to simulate (seconds)
         const int32 velocityIterations = 8;   //how strongly to correct velocity
         const int32 positionIterations = 3;   //how strongly to correct position

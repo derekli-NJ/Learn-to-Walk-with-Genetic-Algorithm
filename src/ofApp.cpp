@@ -1,8 +1,15 @@
 #include "ofApp.h"
-//#include "PhysicsWorld.hpp"
+#include <vector>
 
+using std::vector;
 //--------------------------------------------------------------
 void ofApp::setup(){
+    
+
+    walker.Setup();
+    world.AddWalker(walker);
+    
+    
     ofSetVerticalSync(true);
     
     // we add this listener before setting up so the initial circle resolution is correct
@@ -11,12 +18,8 @@ void ofApp::setup(){
     
     gui.setup(); // most of the time you don't need a name
     gui.add(filled.setup("fill", true));
-    gui.add(radius.setup("radius", 140, 10, 300));
-    gui.add(center.setup("center", ofVec2f(ofGetWidth()*.5, ofGetHeight()*.5), ofVec2f(0, 0), ofVec2f(ofGetWidth(), ofGetHeight())));
     gui.add(color.setup("color", ofColor(100, 100, 140), ofColor(0, 0), ofColor(255, 255)));
-    gui.add(circleResolution.setup("circle res", 5, 3, 90));
-    gui.add(twoCircles.setup("two circles"));
-    gui.add(ringButton.setup("ring"));
+    gui.add(circleResolution.setup("circle res", 90, 3, 90));
     gui.add(screenSize.setup("screen size", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
     
     bHide = false;
@@ -46,6 +49,11 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+
+    
+    
+    
+    
     ofBackgroundGradient(ofColor::white, ofColor::gray);
     
     if(filled){
@@ -53,15 +61,28 @@ void ofApp::draw(){
     }else{
         ofNoFill();
     }
-    
     ofSetColor(color);
-    if(twoCircles){
-        ofDrawCircle(center->x-radius*.5, center->y, radius );
-        ofDrawCircle(center->x+radius*.5, center->y, radius );
-    }else{
-        ofDrawCircle((ofVec2f)center, radius );
+    std::cout<< "hi"<< std::endl;
+    vector <float> body_param = world.GetBodyDrawParameters();
+    for (int i = 0; i < body_param.size(); i++) {
+        if (i % 3 == 0) {
+            ofDrawCircle(body_param[i] * scaling_factor,body_param[i + 1] * scaling_factor,body_param[i + 2] * scaling_factor);
+        }
     }
-    
+    vector <b2Vec2> joint_param = world.GetJointDrawParameters();
+    ofSetLineWidth(8);
+    for (int i = 1; i < joint_param.size(); i++) {
+        
+        ofDrawLine(joint_param[i].x * scaling_factor, joint_param[i].y * scaling_factor, joint_param[i - 1].x * scaling_factor, joint_param[i- 1].y * scaling_factor);
+    }
+
+//    if(twoCircles){
+//        ofDrawCircle(center->x-radius*.5, center->y, radius );
+//        ofDrawCircle(center->x+radius*.5, center->y, radius );
+//    }else{
+//        ofDrawCircle((ofVec2f)center, radius );
+//    }
+//
     // auto draw?
     // should the gui control hiding?
     if(!bHide){

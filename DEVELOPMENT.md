@@ -21,10 +21,13 @@ This week I realized that the OpenFrameworksBox2D wrapper does not have all of t
 
 So far, I have been working on the layout of my class structure. I have build a PhysicsWorld class and a Walker class, with a Simulation class for the future. Currently, I can generate a world in Box2D when I create a world object as well as 3 circles that will be the nodes for my walker. 
 
+I have bound the nodes and joints together with one revolute joint in the rear and one distance joint in the front of the walker. Also, I have drawn the static nodes and joints in OFDraw.
+
 #### To Do
-[x] Create Box2D world in world object
-[x] Create nodes for walker
-[ ] Bind nodes with revolute joints
-[ ] Draw everything to visually debug
-[ ] Get basic walking completed 
-[ ] Work on Simulation class for genetic algorithm
+- [x] Create Box2D world in world object
+- [x] Create nodes for walker
+- [x] Draw nodes and joints in OFDraw
+- [x] Bind nodes with revolute joints
+- [ ] Draw everything to visually debug
+- [ ] Get basic walking completed 
+- [ ] Work on Simulation class for genetic algorithm

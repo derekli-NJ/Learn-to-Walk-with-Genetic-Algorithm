@@ -2,6 +2,11 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
+#include "PhysicsWorld.h"
+#include "Walker.h"
+
+
+
 
 class ofApp : public ofBaseApp{
     
@@ -41,5 +46,10 @@ public:
     ofxPanel gui;
     
     ofSoundPlayer ring;
+    
+    
+    Walker walker;
+    World world;
+    float scaling_factor = 50.0;
 };
 
