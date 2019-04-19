@@ -17,6 +17,7 @@ Looking forward, I need to become more familiar with the way that the Box2D wrap
 
 This week I realized that the OpenFrameworksBox2D wrapper does not have all of the functionality that I need. It only has distance joints while I need to have revolute joints and motors in order for my walkers to move in a controlled manner. For this reason, I have decided to not use the wrapper and directly use the Box2D library and draw the world using OFXGui.
 
+Additionally, I noticed that Box2D uses traditional xy-coordinates while OFXGui draws screen coordinates (from the top left corner and positive is downwards). I need to figure out how to transform to fit and draw on to the screen.
 #### Progress
 
 So far, I have been working on the layout of my class structure. I have build a PhysicsWorld class and a Walker class, with a Simulation class for the future. Currently, I can generate a world in Box2D when I create a world object as well as 3 circles that will be the nodes for my walker. 
@@ -28,6 +29,7 @@ I have bound the nodes and joints together with one revolute joint in the rear a
 - [x] Create nodes for walker
 - [x] Draw nodes and joints in OFDraw
 - [x] Bind nodes with revolute joints
+- [ ] Transform Box2D coordinates to screen coordinates
 - [ ] Draw everything to visually debug
 - [ ] Get basic walking completed 
 - [ ] Work on Simulation class for genetic algorithm
