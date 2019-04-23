@@ -18,7 +18,7 @@ void Walker::Setup() {
 	vector<float> node_location = {x_position, y_position};
 	node_locations.push_back(node_location);
 	for (int i = 1; i < node_count; i++) {
-		node_location[0] = node_location[0] + 2 * node_radius + joint_length; 
+		node_location[0] = node_location[0] + 2 * node_radius[i-1] + joint_length[i-1]; 
 		node_locations.push_back(node_location);
 	}
 }

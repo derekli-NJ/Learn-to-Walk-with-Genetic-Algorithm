@@ -23,10 +23,11 @@ class Walker {
     
         //node parameters
         int node_count = 3;
-        float node_radius = 0.5;
-        float joint_length = 1;
-        float density = 1.0;
-        float friction = 0.3;
+    
+        vector<float> node_radius = {0.5, 0.5, 0.5};
+        vector<float> joint_length = {1, 1};
+        vector<float> density = {1.0, 1.0, 1.0};
+        vector<float> friction = {0.3, 0.3, 0.3};
     
         //revolute joints parameters
         float lower_angle = -0.5f; //multiplied by pi

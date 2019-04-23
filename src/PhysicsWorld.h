@@ -13,6 +13,7 @@
 #include "Box2D/Dynamics/b2World.h"
 #include <vector>
 #include "Walker.h"
+#include "LivingWalker.h"
 
 using std::vector;
 using std::shared_ptr;
@@ -26,10 +27,10 @@ class World {
         void Clear();
         void TimeStep();
     
-        vector<float> body_draw_parameters;
+        
         vector<b2Vec2> joint_draw_parameters;
     
-        const vector<float>& GetBodyDrawParameters();
+        vector<vector<vector<float>>> GetBodyDrawParameters();
         const vector<b2Vec2>& GetJointDrawParameters();
 
         
@@ -37,7 +38,10 @@ class World {
         b2World* world;
         vector<b2Body*> bodies;
         vector<b2Vec2> positions;
+        vector<LivingWalker> living_walkers;
     
+        b2RevoluteJointDef revolute_joint;
+
 
         const float32 timeStep = 1/20.0;      //the length of time passed to simulate (seconds)
         const int32 velocityIterations = 8;   //how strongly to correct velocity
