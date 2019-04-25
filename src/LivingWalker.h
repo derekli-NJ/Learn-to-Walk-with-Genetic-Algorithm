@@ -23,10 +23,7 @@ class LivingWalker {
         LivingWalker(const Walker &walker, const vector<b2Body*> &bodies);
     
         vector<float> node_radius;
-        vector<float> walker_position;
-    
-        vector<b2Vec2> body_joint_parameters;
-    
+        
         vector<b2Body*> body_storage;
     
         void Update();

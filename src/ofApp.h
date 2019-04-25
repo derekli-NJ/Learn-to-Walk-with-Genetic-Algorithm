@@ -51,5 +51,9 @@ public:
     Walker walker;
     World world;
     float scaling_factor = 50.0;
+    
+    int screen_height = ofGetScreenHeight();
+    float y_scaling_factor = -1 * scaling_factor;
+
 };
 

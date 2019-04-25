@@ -28,10 +28,14 @@ class World {
         void TimeStep();
     
         
-        vector<b2Vec2> joint_draw_parameters;
+//        vector<b2Vec2> joint_draw_parameters;
+    
+        vector<float> ground_draw_parameters;
+        vector<float>& GetGroundDrawParameters();
     
         vector<vector<vector<float>>> GetBodyDrawParameters();
-        const vector<b2Vec2>& GetJointDrawParameters();
+        
+//        const vector<b2Vec2>& GetJointDrawParameters();
 
         
     private:
@@ -42,6 +46,9 @@ class World {
     
         b2RevoluteJointDef revolute_joint;
 
+    
+        const float ground_width = 50.0f;
+        const float ground_height = 5.0f;
 
         const float32 timeStep = 1/20.0;      //the length of time passed to simulate (seconds)
         const int32 velocityIterations = 8;   //how strongly to correct velocity

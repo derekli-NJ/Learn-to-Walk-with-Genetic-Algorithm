@@ -18,7 +18,7 @@ World::World() {
     
     // Define the ground body.
     b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0.0, -15.0);
+    groundBodyDef.position.Set(0.0, 6.0);
     
     // Call the body factory which allocates memory for the ground body
     // from a pool and creates the ground box shape (also from a pool).
@@ -29,11 +29,20 @@ World::World() {
     b2PolygonShape groundBox;
     
     // The extents are the half-widths of the box.
-    groundBox.SetAsBox(50.0f, 10.0f);
+    groundBox.SetAsBox(ground_width, ground_height);
     
     // Add the ground fixture to the ground body.
     groundBody->CreateFixture(&groundBox, 0.0f);
-	
+    
+    b2Vec2 ground_position = groundBody -> GetPosition();
+    
+    ground_draw_parameters.push_back(ground_position.x);
+    ground_draw_parameters.push_back(ground_position.y);
+    ground_draw_parameters.push_back(ground_width);
+    ground_draw_parameters.push_back(ground_height);
+    
+    std::cout << ground_position.x << std::endl;
+    std::cout << ground_position.y << std::endl;
 }
 
 b2Body* World::AddWalker(Walker walker) {
@@ -59,43 +68,41 @@ b2Body* World::AddWalker(Walker walker) {
         
         b2Vec2 position = body->GetPosition();
         positions.push_back(position);
-         
-//        body_draw_parameters.push_back(position.x);
-//        body_draw_parameters.push_back(position.y);
-//        body_draw_parameters.push_back(walker.node_radius);
-//        printf("%4.2f %4.2f\n", position.x, position.y);
     }
     revolute_joint.bodyA = bodies[0];
     revolute_joint.bodyB = bodies[1];
-    
-        //gets position of joints
-    for (int i = 0; i < bodies.size(); i++) {
-        b2Vec2 body_position = bodies[i]->GetPosition();
-        joint_draw_parameters.push_back(body_position);
-    }
-    
+
     //set to relative position (coordinate system rotates with revolution)
     revolute_joint.localAnchorA.Set(2 * walker.node_radius[0] + walker.joint_length[0], 0);
-    
+    //revolute_joint.localAnchorA.Set(walker.joint_length[0], 0);
+
+    revolute_joint.localAnchorB.Set(0, 0);
+
     //parameters of revolute joint
     revolute_joint.lowerAngle = walker.lower_angle * b2_pi; // -90 degrees
     revolute_joint.upperAngle = walker.upper_angle * b2_pi; // 45 degrees
     revolute_joint.enableLimit = true;
     revolute_joint.maxMotorTorque = walker.max_motor_torque;
-    revolute_joint.motorSpeed = walker.motor_speed;
-    revolute_joint.enableMotor = true;
+    revolute_joint.motorSpeed = 0.1;
+
+//    revolute_joint.motorSpeed = walker.motor_speed;
+//    revolute_joint.enableMotor = true;
     b2RevoluteJoint* joint = (b2RevoluteJoint*)world->CreateJoint(&revolute_joint);
-    
-    joint->SetMotorSpeed(1);
-    
+
+//    joint->SetMotorSpeed(1);
+
     b2DistanceJointDef distance_joint;
     //bodies connected to and world position of anchors
-    distance_joint.Initialize(bodies[1], bodies[2], positions[1], positions[2]);
+    distance_joint.Initialize(bodies[1], bodies[2], b2Vec2_zero, b2Vec2_zero);
+
+//    distance_joint.localAnchorA(2 * walker.node_radius[1] + walker.joint_length[1], 0);
     distance_joint.collideConnected = true;
-    
+
     //Defines softness of distance joint
     distance_joint.dampingRatio = walker.damping_ratio;
     distance_joint.frequencyHz = walker.frequency_hz;
+
+    b2DistanceJoint* dist_joint = (b2DistanceJoint*)world -> CreateJoint(&distance_joint);
     
     LivingWalker living_walker(walker, bodies);
     living_walkers.push_back(living_walker);
@@ -105,6 +112,14 @@ b2Body* World::AddWalker(Walker walker) {
 
 void World::TimeStep() {
 //    revolute_joint -> SetMotorSpeed(cosf(0.5f * time));
+    vector<vector<float>> body_draw_parameters = living_walkers[0].Draw();
+    float x_position = body_draw_parameters[1][0];
+    float y_position = body_draw_parameters[1][1];
+    
+    std::cout << "X-Position: " << x_position << std::endl;
+    std::cout << "Y-Position: " << y_position << std::endl;
+//    x_position = body_param[walker_num][i][j] * scaling_factor;
+//    y_position = body_param[walker_num][i][j+1] * scaling_factor;
     world->Step( timeStep, velocityIterations, positionIterations);
 }
 
@@ -113,12 +128,6 @@ void World::Clear() {
 }
 
 vector<vector<vector<float>>> World::GetBodyDrawParameters() {
-//    for (int i = 0; i < bodies.size(); i++) {
-//        b2Vec2 position = bodies[i] -> GetPosition();
-//        body_draw_parameters.push_back(position.x);
-//        body_draw_parameters.push_back(position.y);
-//        body_draw_parameters.push_back(walker.node_radius);
-//    }
     vector<vector<vector<float>>> body_draw_parameters;
     for ( LivingWalker living_walker : living_walkers ) {
         body_draw_parameters.push_back(living_walker.Draw());
@@ -126,4 +135,6 @@ vector<vector<vector<float>>> World::GetBodyDrawParameters() {
     return body_draw_parameters;
 }
 
-
+vector<float>& World::GetGroundDrawParameters() {
+    return ground_draw_parameters;
+}

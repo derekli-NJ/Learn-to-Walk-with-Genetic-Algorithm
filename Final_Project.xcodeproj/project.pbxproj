@@ -621,13 +621,13 @@
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				718B746E2261980F00271FEF /* PhysicsWorld.cpp */,
 				718B746F2261980F00271FEF /* PhysicsWorld.h */,
 				714095A0226AF6F500033245 /* LivingWalker.cpp */,
 				714095A1226AF6F500033245 /* LivingWalker.h */,
 				7140959D226454B000033245 /* Walker.cpp */,
 				7140959E226454B000033245 /* Walker.h */,
-				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

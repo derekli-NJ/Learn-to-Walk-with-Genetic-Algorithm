@@ -37,7 +37,7 @@ class Walker {
 
         //distance joint parameters
         float damping_ratio = 1.0;
-        float frequency_hz = 0.0;
+        float frequency_hz = 10.0;
     
         vector<vector<float>> node_locations;
     private:
