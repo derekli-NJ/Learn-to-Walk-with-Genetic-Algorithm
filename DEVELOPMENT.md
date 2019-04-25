@@ -33,7 +33,7 @@ Currently having problems with the revolute joints. When I have the motor enable
 
 I successfully was able to translate the coordinate system and can draw the box2D world. This was done by multiplying by the y-component by -1 and then translating it by the screen height. Also, I have drawn all the walkers and can have them fall onto a ground body. The distance joint works correctly and keeps the nodes the same distance from each other.
 
-#### To Do
+## To Do
 - [x] Create Box2D world in world object
 - [x] Create nodes for walker
 - [x] Draw nodes and joints in OFDraw
