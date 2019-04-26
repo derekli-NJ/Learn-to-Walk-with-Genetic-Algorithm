@@ -17,6 +17,7 @@
 		714095A2226AF6F500033245 /* LivingWalker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 714095A0226AF6F500033245 /* LivingWalker.cpp */; };
 		71675F7E2261A9650037610A /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71675F7D2261A9650037610A /* libBox2D.a */; };
 		718B74702261980F00271FEF /* PhysicsWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 718B746E2261980F00271FEF /* PhysicsWorld.cpp */; };
+		71B59BD12273B0D7009192C0 /* GeneticAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 71B59BCF2273B0D7009192C0 /* GeneticAlgorithm.cpp */; };
 		72F044204A3D0534CE6D2A80 /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E3AAAD0165791F659CE2C273 /* ofxSliderGroup.cpp */; };
 		9FB301B916BC8D7E02936AD8 /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD6AB4C83E739A355E9ED3C3 /* ofxButton.cpp */; };
 		A5DCA026EA3AB43D688284F0 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 595A877E43064D1F3B612C3F /* ofxGuiGroup.cpp */; };
@@ -54,6 +55,8 @@
 		71675F7D2261A9650037610A /* libBox2D.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBox2D.a; path = src/libBox2D.a; sourceTree = "<group>"; };
 		718B746E2261980F00271FEF /* PhysicsWorld.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsWorld.cpp; sourceTree = "<group>"; };
 		718B746F2261980F00271FEF /* PhysicsWorld.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhysicsWorld.h; sourceTree = "<group>"; };
+		71B59BCF2273B0D7009192C0 /* GeneticAlgorithm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GeneticAlgorithm.cpp; sourceTree = "<group>"; };
+		71B59BD02273B0D7009192C0 /* GeneticAlgorithm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneticAlgorithm.h; sourceTree = "<group>"; };
 		86DD00A5088441FE420F23A8 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxLabel.cpp; path = ../of_v0.10.1_osx_release/addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
 		947AC1B82BE7F0B2F615CFB8 /* ofxPanel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxPanel.cpp; path = ../of_v0.10.1_osx_release/addons/ofxGui/src/ofxPanel.cpp; sourceTree = SOURCE_ROOT; };
 		9C9004C0C0013E04D863ED74 /* ofxSliderGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxSliderGroup.h; path = ../of_v0.10.1_osx_release/addons/ofxGui/src/ofxSliderGroup.h; sourceTree = SOURCE_ROOT; };
@@ -625,6 +628,8 @@
 				718B746E2261980F00271FEF /* PhysicsWorld.cpp */,
 				718B746F2261980F00271FEF /* PhysicsWorld.h */,
 				714095A0226AF6F500033245 /* LivingWalker.cpp */,
+				71B59BCF2273B0D7009192C0 /* GeneticAlgorithm.cpp */,
+				71B59BD02273B0D7009192C0 /* GeneticAlgorithm.h */,
 				714095A1226AF6F500033245 /* LivingWalker.h */,
 				7140959D226454B000033245 /* Walker.cpp */,
 				7140959E226454B000033245 /* Walker.h */,
@@ -741,6 +746,7 @@
 				25A3E88846E34CF1D52BE92B /* ofxLabel.cpp in Sources */,
 				7140959F226454B000033245 /* Walker.cpp in Sources */,
 				F5B7FBDA56E9FD16A257049E /* ofxPanel.cpp in Sources */,
+				71B59BD12273B0D7009192C0 /* GeneticAlgorithm.cpp in Sources */,
 				46A2EF0D5862147340BB3F58 /* ofxSlider.cpp in Sources */,
 				714095A2226AF6F500033245 /* LivingWalker.cpp in Sources */,
 				72F044204A3D0534CE6D2A80 /* ofxSliderGroup.cpp in Sources */,

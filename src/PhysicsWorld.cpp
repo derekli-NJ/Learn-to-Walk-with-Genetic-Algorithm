@@ -77,17 +77,16 @@ b2Body* World::AddWalker(Walker walker) {
         b2Vec2 position = body->GetPosition();
         positions.push_back(position);
     }
-    b2RevoluteJointDef revolute_joint;
 
-    b2Vec2 position0 = bodies[0] -> GetPosition();
-    b2Vec2 position1 = bodies[1] -> GetPosition();
-    b2Vec2 position2 = bodies[2] -> GetPosition();
+//    b2Vec2 position0 = bodies[0] -> GetPosition();
+//    b2Vec2 position1 = bodies[1] -> GetPosition();
+//    b2Vec2 position2 = bodies[2] -> GetPosition();
 
     b2DistanceJointDef distance_joint_0;
 //    distance_joint_0.bodyA = bodies[0];
 //    distance_joint_0.bodyB = bodies[1];
 
-    distance_joint_0.Initialize(bodies[0], bodies[1], position0, position1);
+    distance_joint_0.Initialize(bodies[0], bodies[1], positions[0], positions[1]);
     distance_joint_0.collideConnected = true;
 
     //Defines softness of distance joint
@@ -96,41 +95,31 @@ b2Body* World::AddWalker(Walker walker) {
 
     b2DistanceJoint* dist_joint_0 = (b2DistanceJoint*)world -> CreateJoint(&distance_joint_0);
 
+    b2RevoluteJointDef revolute_joint;
+    revolute_joint.Initialize(bodies[0], bodies[1], positions[1]);
+    revolute_joint.collideConnected = false;
+    revolute_joint.motorSpeed = walker.motor_speed;
+    revolute_joint.maxMotorTorque = walker.max_motor_torque;
+    
+    revolute_joint.upperAngle = walker.upper_angle * b2_pi;
+    revolute_joint.lowerAngle = walker.lower_angle * b2_pi;
+    
+    revolute_joint.enableLimit = true;
 
+    revolute_joint.enableMotor = false;
+    joint = (b2RevoluteJoint*)world->CreateJoint(&revolute_joint);
 
-//    revolute_joint.Initialize(bodies[0], bodies[1], position1);
-//    revolute_joint.collideConnected = true;
-////    revolute_joint.bodyA = bodies[0];
-////    revolute_joint.bodyB = bodies[1];
-////
-////    //set to relative position (coordinate system rotates with revolution)
-////    float dx = walker.node_radius[0] + walker.node_radius[1] + walker.joint_length[0];
-////    std::cout << "Delta x " << dx << std::endl;
-////    revolute_joint.localAnchorA.Set(dx, 0);
-////    revolute_joint.localAnchorB.SetZero();
-//
-//    //parameters of revolute joint
-//    revolute_joint.lowerAngle = walker.lower_angle * b2_pi; // -90 degrees
-//    revolute_joint.upperAngle = walker.upper_angle * b2_pi; // 45 degrees
-//    revolute_joint.enableLimit = false;
-//    revolute_joint.maxMotorTorque = walker.max_motor_torque;
-////    revolute_joint.motorSpeed = 0.1;
-//
-//    revolute_joint.motorSpeed = walker.motor_speed;
-//    revolute_joint.enableMotor = false;
-//    joint = (b2RevoluteJoint*)world->CreateJoint(&revolute_joint);
-
-
+    b2PrismaticJointDef prismatic_joint;
+    prismatic_joint.Initialize(bodies[1], bodies[2], positions[1], b2Vec2(0,1));
+    prismatic_joint.enableMotor = false;
+    prismatic_joint.enableLimit = false;
+    (b2PrismaticJoint*)world -> CreateJoint(&prismatic_joint);
+    
     b2DistanceJointDef distance_joint;
+    
+
     //bodies connected to and world position of anchors
-//    distance_joint.bodyA = bodies[1];
-//    distance_joint.bodyB = bodies[2];
-
-//    distance_joint.Initialize(bodies[1], bodies[2], position1, position2);
-//    distance_joint.collideConnected = true;
-
-    //Defines softness of distance joint
-    distance_joint.Initialize(bodies[1], bodies[2], position1, position2);
+    distance_joint.Initialize(bodies[1], bodies[2], positions[1], positions[2]);
     distance_joint.collideConnected = true;
 
     //Defines softness of distance joint

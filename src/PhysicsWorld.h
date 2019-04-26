@@ -26,7 +26,8 @@ class World {
         b2Body* AddWalker(Walker walker);
         void Clear();
         void TimeStep();
-    
+        b2RevoluteJoint* joint;
+
         
 //        vector<b2Vec2> joint_draw_parameters;
     
@@ -45,7 +46,6 @@ class World {
         vector<LivingWalker> living_walkers;
     
     
-        b2RevoluteJoint* joint;
 
     
         const float ground_width = 100.0f;

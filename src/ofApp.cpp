@@ -42,13 +42,14 @@ void ofApp::circleResolutionChanged(int &circleResolution){
 
 //--------------------------------------------------------------
 void ofApp::ringButtonPressed(){
-    world.TimeStep();
     ring.play();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     ofSetCircleResolution(circleResolution);
+    world.TimeStep();
+
 }
 
 //--------------------------------------------------------------
@@ -129,6 +130,9 @@ void ofApp::keyPressed(int key){
     }
     else if(key == ' '){
         ringButtonPressed();
+    }
+    else if (key == 'n') {
+        world.joint -> EnableMotor(!world.joint->IsMotorEnabled());
     }
 }
 
