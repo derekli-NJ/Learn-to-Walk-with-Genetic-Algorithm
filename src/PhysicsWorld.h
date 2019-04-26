@@ -44,26 +44,18 @@ class World {
         vector<b2Vec2> positions;
         vector<LivingWalker> living_walkers;
     
-        b2RevoluteJointDef revolute_joint;
+    
+        b2RevoluteJoint* joint;
 
     
         const float ground_width = 50.0f;
         const float ground_height = 5.0f;
 
-        const float32 timeStep = 1/20.0;      //the length of time passed to simulate (seconds)
-        const int32 velocityIterations = 8;   //how strongly to correct velocity
-        const int32 positionIterations = 3;   //how strongly to correct position
+        const float32 timeStep = 1/60.0;      //the length of time passed to simulate (seconds)
+        const int32 velocityIterations = 10;   //how strongly to correct velocity
+        const int32 positionIterations = 10;   //how strongly to correct position
     
 };
-
-
-
-//extern vector<b2Vec2> circlePosition;
-//
-//void setup();
-////vector<b2PolygonShape> polygons;
-
-//vector <shared_ptr<b2PolygonShape>> polygons;
 
 
 #endif /* physics_hpp */

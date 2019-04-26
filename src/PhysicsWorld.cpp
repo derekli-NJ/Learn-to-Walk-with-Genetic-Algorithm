@@ -40,9 +40,9 @@ World::World() {
     ground_draw_parameters.push_back(ground_position.y);
     ground_draw_parameters.push_back(ground_width);
     ground_draw_parameters.push_back(ground_height);
-    
-    std::cout << ground_position.x << std::endl;
-    std::cout << ground_position.y << std::endl;
+//
+//    std::cout << ground_position.x << std::endl;
+//    std::cout << ground_position.y << std::endl;
 }
 
 b2Body* World::AddWalker(Walker walker) {
@@ -56,6 +56,9 @@ b2Body* World::AddWalker(Walker walker) {
         
         //set circle
         b2CircleShape circle;
+        
+        std::cout << "X Position " << walker.node_locations[i][0] << std::endl;
+        
         circle.m_p.Set(walker.node_locations[i][0], walker.node_locations[i][1]);
         circle.m_radius = walker.node_radius[i];
         
@@ -64,38 +67,62 @@ b2Body* World::AddWalker(Walker walker) {
         fixture_def.shape = &circle;
         fixture_def.density = walker.density[i];
         fixture_def.friction = walker.friction[i];
+        fixture_def.restitution = walker.restitution[i];
         body -> CreateFixture(&fixture_def);
         
         b2Vec2 position = body->GetPosition();
         positions.push_back(position);
     }
-    revolute_joint.bodyA = bodies[0];
-    revolute_joint.bodyB = bodies[1];
+    b2RevoluteJointDef revolute_joint;
+    
+    b2Vec2 position0 = bodies[0] -> GetPosition();
+    b2Vec2 position1 = bodies[1] -> GetPosition();
+    b2Vec2 position2 = bodies[2] -> GetPosition();
+    
+    b2DistanceJointDef distance_joint_0;
+    distance_joint_0.bodyA = bodies[0];
+    distance_joint_0.bodyB = bodies[1];
+    
+    distance_joint_0.Initialize(bodies[0], bodies[1], position0, position1);
+    distance_joint_0.collideConnected = true;
+    
+    //Defines softness of distance joint
+    distance_joint_0.dampingRatio = walker.damping_ratio;
+    distance_joint_0.frequencyHz = walker.frequency_hz;
+    
+    b2DistanceJoint* dist_joint_0 = (b2DistanceJoint*)world -> CreateJoint(&distance_joint_0);
 
-    //set to relative position (coordinate system rotates with revolution)
-    revolute_joint.localAnchorA.Set(2 * walker.node_radius[0] + walker.joint_length[0], 0);
-    //revolute_joint.localAnchorA.Set(walker.joint_length[0], 0);
 
-    revolute_joint.localAnchorB.Set(0, 0);
+
+    revolute_joint.Initialize(bodies[0], bodies[1], position1);
+    revolute_joint.collideConnected = true;
+//    revolute_joint.bodyA = bodies[0];
+//    revolute_joint.bodyB = bodies[1];
+//
+//    //set to relative position (coordinate system rotates with revolution)
+//    float dx = walker.node_radius[0] + walker.node_radius[1] + walker.joint_length[0];
+//    std::cout << "Delta x " << dx << std::endl;
+//    revolute_joint.localAnchorA.Set(dx, 0);
+//    revolute_joint.localAnchorB.SetZero();
 
     //parameters of revolute joint
     revolute_joint.lowerAngle = walker.lower_angle * b2_pi; // -90 degrees
     revolute_joint.upperAngle = walker.upper_angle * b2_pi; // 45 degrees
-    revolute_joint.enableLimit = true;
+    revolute_joint.enableLimit = false;
     revolute_joint.maxMotorTorque = walker.max_motor_torque;
-    revolute_joint.motorSpeed = 0.1;
+//    revolute_joint.motorSpeed = 0.1;
 
-//    revolute_joint.motorSpeed = walker.motor_speed;
-//    revolute_joint.enableMotor = true;
-    b2RevoluteJoint* joint = (b2RevoluteJoint*)world->CreateJoint(&revolute_joint);
+    revolute_joint.motorSpeed = walker.motor_speed;
+    revolute_joint.enableMotor = false;
+    joint = (b2RevoluteJoint*)world->CreateJoint(&revolute_joint);
 
-//    joint->SetMotorSpeed(1);
 
     b2DistanceJointDef distance_joint;
     //bodies connected to and world position of anchors
-    distance_joint.Initialize(bodies[1], bodies[2], b2Vec2_zero, b2Vec2_zero);
-
-//    distance_joint.localAnchorA(2 * walker.node_radius[1] + walker.joint_length[1], 0);
+    distance_joint.bodyA = bodies[1];
+    distance_joint.bodyB = bodies[2];
+ 
+    distance_joint.Initialize(bodies[1], bodies[2], position1, position2);
     distance_joint.collideConnected = true;
 
     //Defines softness of distance joint
@@ -112,14 +139,14 @@ b2Body* World::AddWalker(Walker walker) {
 
 void World::TimeStep() {
 //    revolute_joint -> SetMotorSpeed(cosf(0.5f * time));
+//    joint->SetMotorSpeed(0.1);
+
     vector<vector<float>> body_draw_parameters = living_walkers[0].Draw();
     float x_position = body_draw_parameters[1][0];
     float y_position = body_draw_parameters[1][1];
     
     std::cout << "X-Position: " << x_position << std::endl;
     std::cout << "Y-Position: " << y_position << std::endl;
-//    x_position = body_param[walker_num][i][j] * scaling_factor;
-//    y_position = body_param[walker_num][i][j+1] * scaling_factor;
     world->Step( timeStep, velocityIterations, positionIterations);
 }
 

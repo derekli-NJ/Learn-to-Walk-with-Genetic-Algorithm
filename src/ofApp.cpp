@@ -22,7 +22,7 @@ void ofApp::setup(){
     gui.add(circleResolution.setup("circle res", 90, 3, 90));
     gui.add(screenSize.setup("screen size", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
     
-    gui.add(ringButton.setup("ring"));
+    gui.add(ringButton.setup("Time Step"));
     
     bHide = false;
     
@@ -82,10 +82,15 @@ void ofApp::draw(){
             for (int j = 0; j < body_param[walker_num][i].size(); j++) {
                 if (i == 1) {
                     x_position = body_param[walker_num][i][j] * scaling_factor;
-                    y_position = body_param[walker_num][i][j+1] * y_scaling_factor  + screen_height;
+                    y_position = body_param[walker_num][i][j+1] * y_scaling_factor + screen_height;
                     radius = body_param[walker_num][0][count] * scaling_factor;
-                    
-                
+                    if (j > 1) {
+                        //                        std::cout << "drawing lines" << std::endl;
+                        float last_x_position = body_param[walker_num][i][j-2] * scaling_factor;
+                        float last_y_position = body_param[walker_num][i][j-1] * y_scaling_factor  + screen_height;
+                        ofSetColor(0, 0, 0);
+                        ofDrawLine(x_position, y_position, last_x_position, last_y_position);
+                    }
                     
                     if (count == 1) {
                         ofSetColor(0, 0, 255);
@@ -96,12 +101,7 @@ void ofApp::draw(){
                     count++;
 
                     ofDrawCircle(x_position, y_position, radius);
-                    if (j > 1) {
-//                        std::cout << "drawing lines" << std::endl;
-                        float last_x_position = body_param[walker_num][i][j-2] * scaling_factor;
-                        float last_y_position = body_param[walker_num][i][j-1] * y_scaling_factor  + screen_height;
-                        ofDrawLine(x_position, y_position, last_x_position, last_y_position);
-                    }
+
                     //need to skip by 2 j
                     j++;
                     params_set = false;
@@ -128,7 +128,7 @@ void ofApp::keyPressed(int key){
         gui.loadFromFile("settings.xml");
     }
     else if(key == ' '){
-        color = ofColor(255);
+        ringButtonPressed();
     }
 }
 

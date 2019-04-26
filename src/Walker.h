@@ -28,16 +28,17 @@ class Walker {
         vector<float> joint_length = {1, 1};
         vector<float> density = {1.0, 1.0, 1.0};
         vector<float> friction = {0.3, 0.3, 0.3};
+        vector<float> restitution = {0.75, 0.75, 0.95};
     
         //revolute joints parameters
-        float lower_angle = -0.5f; //multiplied by pi
-        float upper_angle = 0.25f; //multiplied by pi
+        float lower_angle = -1.0f; //multiplied by pi
+        float upper_angle = 1.0f; //multiplied by pi
         float max_motor_torque = 10.0;
-        float motor_speed = 1.0f;
+        float motor_speed = 4.0f;
 
         //distance joint parameters
         float damping_ratio = 1.0;
-        float frequency_hz = 10.0;
+        float frequency_hz = 0.0;
     
         vector<vector<float>> node_locations;
     private:
