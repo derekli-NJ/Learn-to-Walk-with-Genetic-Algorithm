@@ -29,6 +29,8 @@ I have bound the nodes and joints together with one revolute joint in the rear a
 
 Currently having problems with the revolute joints. When I have the motor enabled the walker flies up and off the screen. I believe that it is an issue with how I am setting the local anchors; however, when I look at the documentation it seems like I am doing it correctly.
 
+Was definining a fixture on top of a body definition. It was in relative terms and not world axis which was causing huge headaches.
+
 #### Progress 
 
 I successfully was able to translate the coordinate system and can draw the box2D world. This was done by multiplying by the y-component by -1 and then translating it by the screen height. Also, I have drawn all the walkers and can have them fall onto a ground body. The distance joint works correctly and keeps the nodes the same distance from each other.
