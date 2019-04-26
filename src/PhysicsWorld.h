@@ -48,8 +48,8 @@ class World {
         b2RevoluteJoint* joint;
 
     
-        const float ground_width = 50.0f;
-        const float ground_height = 5.0f;
+        const float ground_width = 100.0f;
+        const float ground_height = 2.0f;
 
         const float32 timeStep = 1/60.0;      //the length of time passed to simulate (seconds)
         const int32 velocityIterations = 10;   //how strongly to correct velocity

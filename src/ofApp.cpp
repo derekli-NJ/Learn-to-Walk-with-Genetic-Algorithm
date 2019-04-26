@@ -66,9 +66,9 @@ void ofApp::draw(){
     
     vector<float> ground_param = world.GetGroundDrawParameters();
     
-    ground_param[0] -= ground_param[2];
-    ground_param[1] -= ground_param[3];
-    ofDrawRectangle(ground_param[0] * scaling_factor, ground_param[1] * y_scaling_factor + screen_height, ground_param[2] * scaling_factor * 2, ground_param[3] * scaling_factor * 2);
+//    ground_param[0] -= ground_param[2];
+//    ground_param[1] -= ground_param[3];
+    ofDrawRectangle(ground_param[0] * scaling_factor, (ground_param[1] + ground_param[3]) * y_scaling_factor + screen_height, ground_param[2] * scaling_factor, ground_param[3] * scaling_factor);
 //    }
 
     vector<vector<vector<float>>> body_param = world.GetBodyDrawParameters();
@@ -170,6 +170,7 @@ void ofApp::mouseExited(int x, int y){
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
     screenSize = ofToString(w) + "x" + ofToString(h);
+    screen_height = h;
 }
 
 //--------------------------------------------------------------
