@@ -59,9 +59,9 @@ void MutateJointGenes(vector<float>& joint_params) {
     
     //bounds of mutations
     vector<float> lower_angle_bound = {-0.75f,-0.1f};
-    vector<float> upper_angle_bound = {0.1f, 0.5f};
+    vector<float> upper_angle_bound = {-0.05f, 0.1f};
     vector<float> motor_torque_bound = {400.0f, 1000.0f};
-    vector<float> motor_speed_bound = {-10.0f, -0.5f};
+    vector<float> motor_speed_bound = {0.5f, 10.0f};
     vector<vector<float>> bounds = {lower_angle_bound, upper_angle_bound, motor_torque_bound, motor_speed_bound};
     
     //calculates standard deviation for each parameter

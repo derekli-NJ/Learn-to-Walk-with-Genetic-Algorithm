@@ -106,7 +106,7 @@ b2Body* World::AddWalker(Walker walker) {
     
     revolute_joint.enableLimit = true;
 
-    revolute_joint.enableMotor = false;
+    revolute_joint.enableMotor = true;
     joint = (b2RevoluteJoint*)world->CreateJoint(&revolute_joint);
 
     b2PrismaticJointDef prismatic_joint;
@@ -137,7 +137,11 @@ b2Body* World::AddWalker(Walker walker) {
 void World::TimeStep() {
 //    revolute_joint -> SetMotorSpeed(cosf(0.5f * time));
 //    joint->SetMotorSpeed(0.1);
-
+    time += 1;
+    if (time % 60 == 0) {
+        joint -> SetMotorSpeed(-joint -> GetMotorSpeed());
+    }
+    
     vector<vector<float>> body_draw_parameters = living_walkers[0].Draw();
     float x_position = body_draw_parameters[1][0];
     float y_position = body_draw_parameters[1][1];

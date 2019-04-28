@@ -28,6 +28,8 @@ class World {
         void TimeStep();
         b2RevoluteJoint* joint;
 
+        int time = 0;
+
         
 //        vector<b2Vec2> joint_draw_parameters;
     

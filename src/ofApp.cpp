@@ -7,7 +7,7 @@
 using std::vector;
 //--------------------------------------------------------------
 void ofApp::setup(){
-    
+    ofSetFrameRate(60);
 //    int time_step_count = 1000;
 //    int generation_count = 1;
 //    int population_size = 100;
@@ -171,7 +171,8 @@ void ofApp::keyPressed(int key){
         ringButtonPressed();
     }
     else if (key == 'n') {
-        world.joint -> EnableMotor(!world.joint->IsMotorEnabled());
+//        world.joint -> EnableMotor(!world.joint -> IsMotorEnabled());
+        world.joint -> SetMotorSpeed(-world.joint -> GetMotorSpeed());
     }
 }
 

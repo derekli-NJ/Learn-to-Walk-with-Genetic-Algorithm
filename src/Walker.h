@@ -32,9 +32,9 @@ class Walker {
     
         //revolute joints parameters
         float lower_angle = -0.75f; //multiplied by pi
-        float upper_angle = 0.5f; //multiplied by pi
+        float upper_angle = 0.0f; //multiplied by pi
         float max_motor_torque = 1000.0;
-        float motor_speed = -4.0f;
+        float motor_speed = 4.0f;
 
         //distance joint parameters
         float damping_ratio = 1.0;
@@ -44,7 +44,7 @@ class Walker {
     private:
     
         float x_position = 8;
-        float y_position = 10;
+        float y_position = 4;
 
     
     
