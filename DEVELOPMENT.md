@@ -39,7 +39,7 @@ I successfully was able to translate the coordinate system and can draw the box2
 
 #### Progress
 
-Walkers can walk! Added prismatic joint to anchor nodes and enable motor to push and pull joints. Need to implement genetic algorithm now to tweak parameters.
+Walkers can walk! Added prismatic joint to anchor nodes and enable motor to push and pull joints. Need to implement genetic algorithm now to tweak parameters. Just started work on the genetic algorithm and now I can mutate the joints parameters about a normal model.
 
 ## To Do
 - [x] Create Box2D world in world object
@@ -51,6 +51,7 @@ Walkers can walk! Added prismatic joint to anchor nodes and enable motor to push
 - [x] Get distance joints to work
 - [x] Get revolute joints to work
 - [x] Get basic walking completed 
+- [x] Generate mutations 
 - [ ] Work on Simulation class for genetic algorithm
 - [ ] Work on extensions?
 - [ ] Clean Up Code
