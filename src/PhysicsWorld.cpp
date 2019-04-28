@@ -61,7 +61,7 @@ b2Body* World::AddWalker(Walker walker) {
         //set circle
         b2CircleShape circle;
         
-        std::cout << "X Position " << walker.node_locations[i][0] << std::endl;
+//        std::cout << "X Position " << walker.node_locations[i][0] << std::endl;
         
 //        circle.m_p.Set(walker.node_locations[i][0], walker.node_locations[i][1]);
         circle.m_radius = walker.node_radius[i];
@@ -141,13 +141,13 @@ void World::TimeStep() {
     vector<vector<float>> body_draw_parameters = living_walkers[0].Draw();
     float x_position = body_draw_parameters[1][0];
     float y_position = body_draw_parameters[1][1];
-
-    std::cout << "X-Position: " << x_position << std::endl;
-    std::cout << "Y-Position: " << y_position << std::endl;
+//
+//    std::cout << "X-Position: " << x_position << std::endl;
+//    std::cout << "Y-Position: " << y_position << std::endl;
     std::cout << world->GetBodyCount() << std::endl;
     b2Vec2 ground_position = groundBody -> GetPosition();
-    std::cout << ground_position.x << std::endl;
-    std::cout << ground_position.y << std::endl;
+//    std::cout << ground_position.x << std::endl;
+//    std::cout << ground_position.y << std::endl;
     world->Step( timeStep, velocityIterations, positionIterations);
 }
 

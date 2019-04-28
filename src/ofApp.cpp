@@ -1,13 +1,36 @@
 #include "ofApp.h"
+
 #include <vector>
+
+
 
 using std::vector;
 //--------------------------------------------------------------
 void ofApp::setup(){
     
+//    int time_step_count = 1000;
+//    int generation_count = 1;
+//    int population_size = 100;
 
-    walker.Setup();
-    world.AddWalker(walker);
+    vector<b2Body*> node_list;
+    for (int i = 0; i < population_size; i++) {
+        Walker walker;
+        walker.Setup();
+        vector<float> joint_param = {walker.lower_angle, walker.upper_angle, walker.max_motor_torque, walker.motor_speed};
+        vector<float> test = joint_param;
+        
+
+        MutateJointGenes(joint_param);
+        for (int i = 0; i < joint_param.size(); i++) {
+            std::cout << "Old value: "<< test[i] << " New Value: " << joint_param[i] << std::endl;
+        }
+        
+        b2Body* node = world.AddWalker(walker);
+        node_list.push_back(node);
+    }
+    
+
+    
     
     
     ofSetVerticalSync(true);

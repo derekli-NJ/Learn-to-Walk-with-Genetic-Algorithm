@@ -4,9 +4,7 @@
 #include "ofxGui.h"
 #include "PhysicsWorld.h"
 #include "Walker.h"
-
-
-
+#include "GeneticAlgorithm.h"
 
 class ofApp : public ofBaseApp{
     
@@ -48,7 +46,6 @@ public:
     ofSoundPlayer ring;
     
     
-    Walker walker;
     World world;
     float scaling_factor = 50.0;
     
