@@ -8,22 +8,22 @@
 
 #include <stdio.h>
 #include <vector>
+#include <random>
+
 
 using std::vector;
 
 const int time_step_count = 1000;
 const int generation_count = 1;
 const int population_size = 100;
+static std::default_random_engine generator(time(NULL));
+
 
 float CalculateFitness();
 vector<float> Mate();
-vector<vector<float>> MutateNodeGenes(vector<vector<float>> walker_params);
+
+void MutateNodeGenes(vector<vector<float>>& walker_params);
 
 void MutateJointGenes(vector<float>& joint_params);
-
-
-vector<float> CalculateNodeMutations();
-//vector<float> CalculateJointMutations();
-
 
 //#endif /* GeneticAlgorithm_h */

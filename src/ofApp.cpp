@@ -13,25 +13,41 @@ void ofApp::setup(){
 //    int population_size = 100;
 
     vector<b2Body*> node_list;
-    for (int i = 0; i < population_size; i++) {
-        Walker walker;
-        walker.Setup();
-        vector<float> joint_param = {walker.lower_angle, walker.upper_angle, walker.max_motor_torque, walker.motor_speed};
-        vector<float> test = joint_param;
-        
+    
+    Walker walker;
+    walker.Setup();
+    vector<float> joint_param = {walker.lower_angle, walker.upper_angle, walker.max_motor_torque, walker.motor_speed};
+    
+    MutateJointGenes(joint_param);
+    
 
-        MutateJointGenes(joint_param);
-        for (int i = 0; i < joint_param.size(); i++) {
-            std::cout << "Old value: "<< test[i] << " New Value: " << joint_param[i] << std::endl;
+    walker.lower_angle = joint_param[0];
+    walker.upper_angle = joint_param[1];
+    walker.max_motor_torque = joint_param[2];
+    walker.motor_speed = joint_param[3];
+    
+    
+    //node parameter mutations
+    vector<vector<float>> node_param = {walker.node_radius, walker.density, walker.friction, walker.restitution, walker.joint_length};
+    
+    vector<vector<float>> test = node_param;
+    MutateNodeGenes(node_param);
+    
+    walker.node_radius = node_param[0];
+    walker.density = node_param[1];
+    walker.friction = node_param[2];
+    walker.restitution = node_param[3];
+    walker.joint_length = node_param[4];
+    
+    std::cout << "----- Node params ----" << std::endl;
+    for (int i = 0; i < node_param.size(); i++) {
+        for (int j = 0; j < node_param[i].size(); j++) {
+            std::cout << "Old value: " << test[i][j] << " New Value: " << node_param[i][j] << std::endl;
         }
-        
-        b2Body* node = world.AddWalker(walker);
-        node_list.push_back(node);
     }
     
-
-    
-    
+    b2Body* node = world.AddWalker(walker);
+    node_list.push_back(node);
     
     ofSetVerticalSync(true);
     

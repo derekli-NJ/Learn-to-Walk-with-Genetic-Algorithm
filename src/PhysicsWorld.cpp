@@ -39,8 +39,8 @@ World::World() {
     
     
     b2Vec2 ground_position = groundBody -> GetPosition();
-    std::cout << ground_position.x << std::endl;
-    std::cout << ground_position.y << std::endl;
+//    std::cout << ground_position.x << std::endl;
+//    std::cout << ground_position.y << std::endl;
     
     ground_draw_parameters.push_back(ground_position.x - ground_width / 2);
     ground_draw_parameters.push_back(ground_position.y - ground_height / 2);
@@ -144,7 +144,7 @@ void World::TimeStep() {
 //
 //    std::cout << "X-Position: " << x_position << std::endl;
 //    std::cout << "Y-Position: " << y_position << std::endl;
-    std::cout << world->GetBodyCount() << std::endl;
+//    std::cout << world->GetBodyCount() << std::endl;
     b2Vec2 ground_position = groundBody -> GetPosition();
 //    std::cout << ground_position.x << std::endl;
 //    std::cout << ground_position.y << std::endl;
