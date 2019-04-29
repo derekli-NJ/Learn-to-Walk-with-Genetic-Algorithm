@@ -45,6 +45,12 @@ Walkers can walk! Added prismatic joint to anchor nodes and enable motor to push
 ##### Saturday April 27
 Just started work on the genetic algorithm and now I can mutate the joints parameters about a normal model. Also, implemented the initial generation by creating uniform randomness about the range of parameters.
 
+##### Sunday April 28
+Had to implement a copy assignment operator oveload for the Walker class.
+
+##### Monday April 29
+Was getting this really weird error where the vector was not able to push back and I went to office hours and fixed it by reserving memory. 
+
 ## To Do
 - [x] Create Box2D world in world object
 - [x] Create nodes for walker
@@ -57,7 +63,7 @@ Just started work on the genetic algorithm and now I can mutate the joints param
 - [x] Get basic walking completed 
 - [x] Generate initial generations
 - [x] Generate mutations 
-- [ ] Calculate fitness scores
+- [x] Calculate fitness scores
 - [ ] Implement Mate function 
 - [ ] Work on extensions?
 - [ ] Clean Up Code
