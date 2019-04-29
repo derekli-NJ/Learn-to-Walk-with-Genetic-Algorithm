@@ -35,11 +35,15 @@ Was definining a fixture on top of a body definition. It was in relative terms a
 
 I successfully was able to translate the coordinate system and can draw the box2D world. This was done by multiplying by the y-component by -1 and then translating it by the screen height. Also, I have drawn all the walkers and can have them fall onto a ground body. The distance joint works correctly and keeps the nodes the same distance from each other.
 
-## Home Stretch
+## Home Stretch!!
 
 #### Progress
 
-Walkers can walk! Added prismatic joint to anchor nodes and enable motor to push and pull joints. Need to implement genetic algorithm now to tweak parameters. Just started work on the genetic algorithm and now I can mutate the joints parameters about a normal model.
+##### Friday April 26
+Walkers can walk! Added prismatic joint to anchor nodes and enable motor to push and pull joints. Need to implement genetic algorithm now to tweak parameters.
+
+##### Saturday April 27
+Just started work on the genetic algorithm and now I can mutate the joints parameters about a normal model. Also, implemented the initial generation by creating uniform randomness about the range of parameters.
 
 ## To Do
 - [x] Create Box2D world in world object
@@ -51,7 +55,9 @@ Walkers can walk! Added prismatic joint to anchor nodes and enable motor to push
 - [x] Get distance joints to work
 - [x] Get revolute joints to work
 - [x] Get basic walking completed 
+- [x] Generate initial generations
 - [x] Generate mutations 
-- [ ] Work on Simulation class for genetic algorithm
+- [ ] Calculate fitness scores
+- [ ] Implement Mate function 
 - [ ] Work on extensions?
 - [ ] Clean Up Code
