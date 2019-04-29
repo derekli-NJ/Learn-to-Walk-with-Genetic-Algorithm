@@ -22,31 +22,35 @@ class Walker {
         void Setup();
     
         //node parameters
-        int node_count = 3;
+        int node_count;
     
-        vector<float> node_radius = {0.5, 0.5, 0.5};
-        vector<float> joint_length = {1, 1};
-        vector<float> density = {1.0, 2.0, 2.0};
-        vector<float> friction = {0.0625, 0.3, 0.0625};
-        vector<float> restitution = {0.75, 0.75, 0.75};
+        vector<float> node_radius;
+        vector<float> joint_length;
+        vector<float> density;
+        vector<float> friction;
+        vector<float> restitution;
     
         //revolute joints parameters
-        float lower_angle = -0.75f; //multiplied by pi
-        float upper_angle = 0.0f; //multiplied by pi
-        float max_motor_torque = 1000.0;
-        float motor_speed = 4.0f;
+        float lower_angle; //multiplied by pi
+        float upper_angle; //multiplied by pi
+        float max_motor_torque;
+        float motor_speed;
 
         //distance joint parameters
-        float damping_ratio = 1.0;
-        float frequency_hz = 0.0;
+        float damping_ratio;
+        float frequency_hz;
     
         vector<vector<float>> node_locations;
-    private:
     
-        float x_position = 8;
-        float y_position = 4;
-
+        const float x_position = 1.5;
+        const float y_position = 4;
     
+    
+        // Overloaded assignment operator
+        Walker& operator= (const Walker &walker);
+    
+        //Overloaded copy constructor
+        Walker(const Walker& walker);
     
 };
 

@@ -9,13 +9,22 @@
 #include <stdio.h>
 #include <vector>
 #include <random>
+#include "Box2D/Box2D.h"
+#include "Box2D/Dynamics/b2World.h"
+#include "PhysicsWorld.h"
+#include "Walker.h"
+
 
 
 using std::vector;
 
-const int time_step_count = 1000;
-const int generation_count = 1;
-const int population_size = 100;
+const int time_step_count = 500;
+const int generation_count = 10;
+static int current_generation_count = 1;
+const int population_size = 25;
+const int parent_count = 5;
+const int final_walker_count = 3;
+
 static std::default_random_engine generator(time(NULL));
 
 //bounds of mutations for nodes
@@ -35,15 +44,25 @@ const vector<float> motor_speed_bound = {0.5f, 10.0f};
 const vector<vector<float>> joint_bounds = {lower_angle_bound, upper_angle_bound, motor_torque_bound, motor_speed_bound};
 
 
-float CalculateFitness();
+float CalculateFitness(b2Body* node, float start_position);
 vector<float> Mate();
 
 void InitialJointGeneration(vector<float>& joint_params);
 
-void InitialNodeGeneration(vector<vector<float>>& walker_params);
+vector<vector<float>> InitialNodeGeneration(vector<vector<float>> walker_params);
 
 void MutateNodeGenes(vector<vector<float>>& walker_params);
 
 void MutateJointGenes(vector<float>& joint_params);
+
+vector<Walker> FindBestWalker(World world);
+
+vector<Walker> InitialGeneration();
+
+vector<Walker> Training(vector<Walker> walkers, World& world);
+
+vector<Walker> MakeChildren(vector<Walker> parents);
+
+float Simulation(Walker walker, World& world);
 
 //#endif /* GeneticAlgorithm_h */

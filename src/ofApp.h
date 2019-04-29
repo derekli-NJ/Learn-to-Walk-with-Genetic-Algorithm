@@ -31,7 +31,7 @@ public:
     void ringButtonPressed();
     
     bool bHide;
-    
+        
     ofxFloatSlider radius;
     ofxColorSlider color;
     ofxVec2Slider center;
@@ -42,15 +42,17 @@ public:
     ofxLabel screenSize;
     
     ofxPanel gui;
+    World world;
+
     
     ofSoundPlayer ring;
     
-    
-    World world;
     float scaling_factor = 50.0;
     
     int screen_height = ofGetScreenHeight();
     float y_scaling_factor = -1 * scaling_factor;
-
+    
+    bool training = true;
+    bool no_gui = false;
 };
 

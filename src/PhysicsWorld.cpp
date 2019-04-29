@@ -49,8 +49,9 @@ World::World() {
 //
 }
 
-b2Body* World::AddWalker(Walker walker) {
-    for (int i = 0; i < 3; i++) {
+vector<LivingWalker> World::AddWalker(Walker walker) {
+    bodies.clear();
+    for (int i = 0; i < walker.node_count; i++) {
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(walker.node_locations[i][0], walker.node_locations[i][1]);
@@ -77,10 +78,6 @@ b2Body* World::AddWalker(Walker walker) {
         b2Vec2 position = body->GetPosition();
         positions.push_back(position);
     }
-
-//    b2Vec2 position0 = bodies[0] -> GetPosition();
-//    b2Vec2 position1 = bodies[1] -> GetPosition();
-//    b2Vec2 position2 = bodies[2] -> GetPosition();
 
     b2DistanceJointDef distance_joint_0;
 //    distance_joint_0.bodyA = bodies[0];
@@ -131,8 +128,13 @@ b2Body* World::AddWalker(Walker walker) {
     LivingWalker living_walker(walker, bodies);
     living_walkers.push_back(living_walker);
     
-    return bodies[0];
+    return living_walkers; 
 }
+
+void World::DeleteBody(b2Body* node) {
+    world -> DestroyBody(node);
+}
+
 
 void World::TimeStep() {
 //    revolute_joint -> SetMotorSpeed(cosf(0.5f * time));

@@ -13,15 +13,8 @@
 
 LivingWalker::LivingWalker(const Walker &walker, const vector<b2Body*>& bodies) {
     node_radius = walker.node_radius;
-    
-
-    
     for (int i = 0; i < bodies.size(); i++) {
         body_storage.push_back(bodies[i]);
-//        b2Vec2 position = bodies[i] -> GetPosition();
-//        walker_position.push_back(position.x);
-//        walker_position.push_back(position.y);
-//        body_draw_parameters.push_back(walker.node_radius);
     }
 }
 

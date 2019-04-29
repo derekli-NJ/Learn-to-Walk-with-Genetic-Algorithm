@@ -23,10 +23,14 @@ class World {
         //Constructor
         World();
     
-        b2Body* AddWalker(Walker walker);
+        vector<LivingWalker> AddWalker(Walker walker);
+        void DeleteBody(b2Body* node);
+
+    
         void Clear();
         void TimeStep();
         b2RevoluteJoint* joint;
+
 
         int time = 0;
 
@@ -37,15 +41,16 @@ class World {
         vector<float>& GetGroundDrawParameters();
     
         vector<vector<vector<float>>> GetBodyDrawParameters();
-        
+
 //        const vector<b2Vec2>& GetJointDrawParameters();
 
         
     private:
         b2World* world;
-        vector<b2Body*> bodies;
         vector<b2Vec2> positions;
         vector<LivingWalker> living_walkers;
+        vector<b2Body*> bodies;
+
     
     
 
