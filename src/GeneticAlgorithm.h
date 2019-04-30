@@ -18,14 +18,15 @@
 
 using std::vector;
 
-const int time_step_count = 500;
-const int generation_count = 10;
+const int time_step_count = 2400;
+const int generation_count = 100;
 static int current_generation_count = 1;
-const int population_size = 25;
-const int parent_count = 5;
+const int population_size = 300;
+const int parent_count = 50;
 const int final_walker_count = 3;
 
-static std::default_random_engine generator(time(NULL));
+static std::default_random_engine generator(2019);
+//random is time(NULL)
 
 //bounds of mutations for nodes
 const vector<float> node_radius_bound = {0.2, 1.0};
@@ -49,7 +50,7 @@ vector<float> Mate();
 
 void InitialJointGeneration(vector<float>& joint_params);
 
-vector<vector<float>> InitialNodeGeneration(vector<vector<float>> walker_params);
+vector<vector<float>> InitialNodeGeneration(vector<vector<float>>& walker_params);
 
 void MutateNodeGenes(vector<vector<float>>& walker_params);
 
@@ -59,10 +60,11 @@ vector<Walker> FindBestWalker(World world);
 
 vector<Walker> InitialGeneration();
 
-vector<Walker> Training(vector<Walker> walkers, World& world);
+vector<Walker> Training(vector<Walker>& walkers, World& world);
 
-vector<Walker> MakeChildren(vector<Walker> parents);
+vector<Walker> MakeChildren(vector<Walker>& parents);
 
-float Simulation(Walker walker, World& world);
+float Simulation(Walker& walker, World& world);
+
 
 //#endif /* GeneticAlgorithm_h */

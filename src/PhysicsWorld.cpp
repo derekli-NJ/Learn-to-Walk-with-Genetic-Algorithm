@@ -49,6 +49,10 @@ World::World() {
 //
 }
 
+void World::DeleteWorld() {
+    delete world;
+}
+
 vector<LivingWalker> World::AddWalker(Walker walker) {
     bodies.clear();
     for (int i = 0; i < walker.node_count; i++) {

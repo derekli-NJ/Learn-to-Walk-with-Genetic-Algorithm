@@ -8,16 +8,16 @@
 #include "Walker.h"
 
 Walker::Walker() {
-	//clear values
-//    x_position = 250;
-//    y_position = 250;
+    //clear values
+    //    x_position = 250;
+    //    y_position = 250;
     node_count = 3;
     
     node_radius = {0.5, 0.5, 0.5};
-//    node_radius.push_back(0.5);
-//    node_radius.push_back(0.5);
-//    node_radius.push_back(0.5);
-
+    //    node_radius.push_back(0.5);
+    //    node_radius.push_back(0.5);
+    //    node_radius.push_back(0.5);
+    
     joint_length = {1, 1};
     density = {1.0, 2.0, 2.0};
     friction = {0.0625, 0.3, 0.0625};
@@ -36,19 +36,21 @@ Walker::Walker() {
 }
 
 void Walker::Setup() {
+    node_locations.clear();
+    node_locations.reserve(node_count);
     float curr_x = x_position;
     
     /*
-    vector<float> node_location = {x_position, y_position};
-    node_locations.push_back(node_location);
-    for (int i = 1; i < node_count; i++) {
-        node_location[0] = node_location[0] + node_radius[i-1] + node_radius[i] + joint_length[i-1];
-        node_locations.push_back(node_location);
-    }*/
-    for (int i = 0; i < node_count; i++){
-        vector<float> node_location = {curr_x, y_position};
-        node_locations.push_back(node_location);
+     vector<float> node_location = {x_position, y_position};
+     node_locations.push_back(node_location);
+     for (int i = 1; i < node_count; i++) {
+         node_location[0] = node_location[0] + node_radius[i-1] + node_radius[i] + joint_length[i-1];
+         node_locations.push_back(node_location);
+     }*/
+    node_locations.push_back({curr_x, y_position});
+    for (int i = 1; i < node_count; i++){
         curr_x += node_radius[i-1] + node_radius[i] + joint_length[i-1];
+        node_locations.push_back({curr_x, y_position});
     }
 }
 
@@ -73,15 +75,14 @@ void Walker::Setup() {
  float frequency_hz;
  
  vector<vector<float>> node_locations;
-
  */
 Walker::Walker(const Walker &walker) {
     node_count = walker.node_count;
-    node_radius = std::vector<float>(walker.node_radius);
-    joint_length = std::vector<float>(walker.joint_length);
-    density = std::vector<float>(walker.density);
-    friction = std::vector<float>(walker.friction);
-    restitution = std::vector<float>(walker.restitution);
+    node_radius = walker.node_radius;
+    joint_length = walker.joint_length;
+    density = walker.density;
+    friction = walker.friction;
+    restitution = walker.restitution;
     
     lower_angle = walker.lower_angle;
     upper_angle = walker.upper_angle;
@@ -91,7 +92,7 @@ Walker::Walker(const Walker &walker) {
     damping_ratio = walker.damping_ratio;
     frequency_hz = walker.frequency_hz;
     
-    node_locations = std::vector<std::vector<float> >(walker.node_locations);
+    node_locations = walker.node_locations;
 }
 
 
@@ -114,8 +115,7 @@ Walker& Walker::operator= (const Walker &walker) {
     frequency_hz = walker.frequency_hz;
     
     node_locations = walker.node_locations;
-
+    
     // Overloaded assignment
     return *this;
 }
-

@@ -43,7 +43,7 @@ class World {
         vector<vector<vector<float>>> GetBodyDrawParameters();
 
 //        const vector<b2Vec2>& GetJointDrawParameters();
-
+        void DeleteWorld();
         
     private:
         b2World* world;

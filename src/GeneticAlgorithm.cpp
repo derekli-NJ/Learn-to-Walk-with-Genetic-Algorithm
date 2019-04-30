@@ -7,7 +7,8 @@
 
 #include "GeneticAlgorithm.h"
 #include <iostream>
-
+#include <fstream>
+using std::ofstream;
 
 //#include <math.h>
 
@@ -22,9 +23,9 @@ vector<Walker> InitialGeneration() {
         vector<float> test1 = joint_param;
         
         InitialJointGeneration(joint_param);
-        for (int i = 0; i < joint_param.size(); i++) {
-            std::cout << "Old value: " << test1[i] << " New Value: " << joint_param[i] << std::endl;
-        }
+//        for (int i = 0; i < joint_param.size(); i++) {
+//            std::cout << "Old value: " << test1[i] << " New Value: " << joint_param[i] << std::endl;
+//        }
         walker.lower_angle = joint_param[0];
         walker.upper_angle = joint_param[1];
         walker.max_motor_torque = joint_param[2];
@@ -33,7 +34,6 @@ vector<Walker> InitialGeneration() {
         //node parameter mutations
         vector<vector<float>> node_param0 = {walker.node_radius, walker.density, walker.friction, walker.restitution, walker.joint_length};
         
-        vector<vector<float>> test = node_param0;
         vector<vector<float>> node_param = InitialNodeGeneration(node_param0);
         
         walker.node_radius = node_param[0];
@@ -41,10 +41,11 @@ vector<Walker> InitialGeneration() {
         walker.friction = node_param[2];
         walker.restitution = node_param[3];
         walker.joint_length = node_param[4];
-        std::cout << &walker << std::endl;
+//        std::cout << &walker << std::endl;
         
         //Walker local_walker;
         //walkers.push_back(local_walker);
+        walker.Setup();
         walkers.push_back(walker);
 //        vector<LivingWalker> living_walker = world.AddWalker(walker);
     }
@@ -53,22 +54,24 @@ vector<Walker> InitialGeneration() {
 }
 
 vector<Walker> FindBestWalker(World world) {
-    srand (time(NULL));
+    srand (2019);
     vector<Walker> children = InitialGeneration();
     vector<Walker> parents;
     for (int i = 0; i < generation_count; i++) {
+        std::cout<<current_generation_count<<std::endl;
         parents = Training(children, world);
         children = MakeChildren(parents);
         current_generation_count += 1;
     }
     std::cout << "Training"<<std::endl;
     return (Training(children, world));
+    return vector<Walker>();
 }
 
-vector<Walker> Training(vector<Walker> walkers, World& world) {
+vector<Walker> Training(vector<Walker>& walkers, World& world) {
     vector<float> fitness_scores;
     vector<Walker> parents;
-    for (Walker walker : walkers) {
+    for (Walker& walker : walkers) {
         fitness_scores.push_back(Simulation(walker, world));
     }
     for (int i = 0; i < parent_count; i++) {
@@ -81,7 +84,7 @@ vector<Walker> Training(vector<Walker> walkers, World& world) {
 }
 
 
-float Simulation(Walker walker, World& world) {
+float Simulation(Walker& walker, World& world) {
     float start_position = walker.x_position;
     vector<LivingWalker> living_walker = world.AddWalker(walker);
     for (int i = 0; i < time_step_count; i++) {
@@ -94,20 +97,20 @@ float Simulation(Walker walker, World& world) {
     return fitness;
 }
 
-vector<Walker> MakeChildren(vector<Walker> parents) {
+vector<Walker> MakeChildren(vector<Walker>& parents) {
     vector<Walker> children;
     int children_per_parent = population_size / parent_count;
-    for (Walker parent: parents) {
+    int count = 0;
+    for (Walker& parent: parents) {
         for (int i = 0; i < children_per_parent; i++) {
+            
             Walker child;
             child.Setup();
             vector<float> joint_param = {parent.lower_angle, parent.upper_angle, parent.max_motor_torque, parent.motor_speed};
             vector<float> test1 = joint_param;
             
             MutateJointGenes(joint_param);
-            for (int i = 0; i < joint_param.size(); i++) {
-                std::cout << "Old value: " << test1[i] << " New Value: " << joint_param[i] << std::endl;
-            }
+
             child.lower_angle = joint_param[0];
             child.upper_angle = joint_param[1];
             child.max_motor_torque = joint_param[2];
@@ -126,6 +129,11 @@ vector<Walker> MakeChildren(vector<Walker> parents) {
             child.joint_length = node_param[4];
             
             children.push_back(child);
+            count++;
+            //safety check
+            if (count >= population_size) {
+                return children;
+            }
         }
     }
     return children;
@@ -140,23 +148,27 @@ vector<float> Mate() {
     return {};
 }
 
-vector<vector<float>> InitialNodeGeneration(vector<vector<float>> walker_params) {
+vector<vector<float>> InitialNodeGeneration(vector<vector<float>>& walker_params) {
+    vector<vector<float>> tmp;
     //mutate node genes about the current parameter by a normal distribution and calculated standard deviation
     for (int i = 0; i < node_bounds.size();i++) {
+        vector<float> tmp2;
         for (int j = 0; j < walker_params.size();j++) {
             float random_number = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 //            float random_number = 1.0f;
             float range = node_bounds[i][1] - node_bounds[i][0];
-            walker_params[i][j] = random_number * range + node_bounds[i][0];
+            tmp2.push_back(random_number * range + node_bounds[i][0]);
+//            walker_params[i][j] = random_number * range + node_bounds[i][0];
         }
+        tmp.push_back(tmp2);
     }
+    return tmp;
 //    for (auto v : walker_params) {
 //        for (float x : v) {
 //            std::cout << x << ", ";
 //        }
 //        std::cout << std::endl;
 //    }
-    return walker_params;
 }
 
 
@@ -226,3 +238,5 @@ void MutateJointGenes(vector<float>& joint_params) {
         }
     }
 }
+
+

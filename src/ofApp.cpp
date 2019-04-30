@@ -16,7 +16,17 @@ void ofApp::setup(){
 //    float start_position = walker.x_position;
     if (training) {
         vector<Walker> best_walkers = FindBestWalker(world);
+        WriteWalkerToFile(best_walkers);
         Walker walker = best_walkers[0];
+        std::cout << "---Best Walker Params---" << std::endl;
+        for (int i = 0; i < walker.joint_length.size(); i++) {
+            std::cout<< "Joint length " << walker.joint_length[i] << std::endl;
+        }
+        for (int i = 0; i < walker.node_radius.size(); i++) {
+            std::cout<< "Node radius " << walker.node_radius[i] << std::endl;
+        }
+
+
         world.AddWalker(walker);
     }
 
@@ -28,6 +38,9 @@ void ofApp::setup(){
     circleResolution.addListener(this, &ofApp::circleResolutionChanged);
     ringButton.addListener(this, &ofApp::ringButtonPressed);
     
+    
+
+    
     gui.setup(); // most of the time you don't need a name
     gui.add(filled.setup("fill", true));
     gui.add(color.setup("color", ofColor(100, 100, 140), ofColor(0, 0), ofColor(255, 255)));
@@ -37,7 +50,11 @@ void ofApp::setup(){
     gui.add(ringButton.setup("Time Step"));
     bHide = false;
     
-    ring.load("ring.wav");
+    std::cout << "what the hell" <<std::endl;
+//    ring.load("ring.wav");
+    
+    std::cout << "1" <<std::endl;
+
 //    }
 }
 
@@ -47,6 +64,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::exit(){
     ringButton.removeListener(this, &ofApp::ringButtonPressed);
+    world.DeleteWorld();
 }
 
 //--------------------------------------------------------------
@@ -61,18 +79,26 @@ void ofApp::ringButtonPressed(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+//    std::cout << "2" <<std::endl;
+
     ofSetCircleResolution(circleResolution);
     world.TimeStep();
+    
+//    std::cout << "3" <<std::endl;
+
 
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+//    std::cout << "4" <<std::endl;
+
     if (no_gui) {
         return;
     }
     ofBackgroundGradient(ofColor::white, ofColor::gray);
-    
+//    std::cout << "5" <<std::endl;
+
     if(filled){
         ofFill();
     }else{
@@ -82,7 +108,7 @@ void ofApp::draw(){
     ofSetLineWidth(4);
     
     vector<float> ground_param = world.GetGroundDrawParameters();
-    
+//    std::cout << "6" << std::endl;
 //    ground_param[0] -= ground_param[2];
 //    ground_param[1] -= ground_param[3];
     ofDrawRectangle(ground_param[0] * scaling_factor, (ground_param[1] + ground_param[3]) * y_scaling_factor + screen_height, ground_param[2] * scaling_factor, ground_param[3] * scaling_factor);
