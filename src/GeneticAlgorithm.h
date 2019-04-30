@@ -18,7 +18,7 @@
 
 using std::vector;
 
-const int time_step_count = 1000;
+const int time_step_count = 2400;
 const int generation_count = 100;
 static int current_generation_count = 1;
 const int population_size = 150;
@@ -67,5 +67,8 @@ vector<Walker> MakeChildren(vector<Walker>& parents);
 float Simulation(Walker& walker, World& world);
 
 void WriteWalkerToFile(vector<Walker>& best_walkers);
+
+void ReadWalkerFromFile();
+
 
 //#endif /* GeneticAlgorithm_h */

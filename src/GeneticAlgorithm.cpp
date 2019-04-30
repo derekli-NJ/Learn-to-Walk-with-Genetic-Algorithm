@@ -10,14 +10,11 @@
 #include <fstream>
 using std::ofstream;
 
-//#include <math.h>
 
 vector<Walker> InitialGeneration() {
     vector<Walker> walkers;
     walkers.reserve(population_size);
-    //Walker walker;
     for (int i = 0; i < population_size; i++) {
-        //walker = Walker();
         Walker walker;
         vector<float> joint_param = {walker.lower_angle, walker.upper_angle, walker.max_motor_torque, walker.motor_speed};
         vector<float> test1 = joint_param;
@@ -65,7 +62,6 @@ vector<Walker> FindBestWalker(World world) {
     }
     std::cout << "Training"<<std::endl;
     return (Training(children, world));
-    return vector<Walker>();
 }
 
 vector<Walker> Training(vector<Walker>& walkers, World& world) {
@@ -85,14 +81,18 @@ vector<Walker> Training(vector<Walker>& walkers, World& world) {
 
 
 float Simulation(Walker& walker, World& world) {
+    World world2;
     float start_position = walker.x_position;
-    vector<LivingWalker> living_walker = world.AddWalker(walker);
+    vector<LivingWalker> living_walker = world2.AddWalker(walker);
+//    std::cout << "Before time step" <<std::endl;
     for (int i = 0; i < time_step_count; i++) {
-        world.TimeStep();
+        world2.TimeStep();
     }
+//    std::cout << "After time step" <<std::endl;
+
     float fitness = CalculateFitness(living_walker[0].body_storage[0], walker.x_position);
     for (int i = 0; i < living_walker[0].body_storage.size(); i++) {
-        world.DeleteBody(living_walker[0].body_storage[i]);
+        world2.DeleteBody(living_walker[0].body_storage[i]);
     }
     return fitness;
 }
@@ -103,9 +103,7 @@ vector<Walker> MakeChildren(vector<Walker>& parents) {
     int count = 0;
     for (Walker& parent: parents) {
         for (int i = 0; i < children_per_parent; i++) {
-            
             Walker child;
-            child.Setup();
             vector<float> joint_param = {parent.lower_angle, parent.upper_angle, parent.max_motor_torque, parent.motor_speed};
             vector<float> test1 = joint_param;
             
@@ -128,6 +126,7 @@ vector<Walker> MakeChildren(vector<Walker>& parents) {
             child.restitution = node_param[3];
             child.joint_length = node_param[4];
             
+            child.Setup();
             children.push_back(child);
             count++;
             //safety check
@@ -153,7 +152,7 @@ vector<vector<float>> InitialNodeGeneration(vector<vector<float>>& walker_params
     //mutate node genes about the current parameter by a normal distribution and calculated standard deviation
     for (int i = 0; i < node_bounds.size();i++) {
         vector<float> tmp2;
-        for (int j = 0; j < walker_params.size();j++) {
+        for (int j = 0; j < walker_params[i].size();j++) {
             float random_number = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 //            float random_number = 1.0f;
             float range = node_bounds[i][1] - node_bounds[i][0];
@@ -239,11 +238,15 @@ void MutateJointGenes(vector<float>& joint_params) {
     }
 }
 
+void ReadWalkerFromFile() {
+    
+}
+
 
 void WriteWalkerToFile(vector<Walker>& best_walkers) {
     std::cout << "Writing to file" <<std::endl;
     ofstream my_file;
-    my_file.open("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/Walker.txt");
+    my_file.open("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/Data.txt");
     if (my_file.is_open()) {
         std::cout << "File is open!" << std::endl;
     }
