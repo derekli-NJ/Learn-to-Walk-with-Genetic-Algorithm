@@ -18,11 +18,11 @@
 
 using std::vector;
 
-const int time_step_count = 2400;
+const int time_step_count = 1000;
 const int generation_count = 100;
 static int current_generation_count = 1;
-const int population_size = 300;
-const int parent_count = 50;
+const int population_size = 150;
+const int parent_count = 25;
 const int final_walker_count = 3;
 
 static std::default_random_engine generator(2019);
@@ -66,5 +66,6 @@ vector<Walker> MakeChildren(vector<Walker>& parents);
 
 float Simulation(Walker& walker, World& world);
 
+void WriteWalkerToFile(vector<Walker>& best_walkers);
 
 //#endif /* GeneticAlgorithm_h */

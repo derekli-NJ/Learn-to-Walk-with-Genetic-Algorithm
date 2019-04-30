@@ -240,3 +240,45 @@ void MutateJointGenes(vector<float>& joint_params) {
 }
 
 
+void WriteWalkerToFile(vector<Walker>& best_walkers) {
+    std::cout << "Writing to file" <<std::endl;
+    ofstream my_file;
+    my_file.open("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/Walker.txt");
+    if (my_file.is_open()) {
+        std::cout << "File is open!" << std::endl;
+    }
+    for (Walker& walker: best_walkers) {
+        my_file << walker.node_count << std::endl;
+        for (int i = 0; i < walker.node_radius.size();i++) {
+            my_file << walker.node_radius[i] << std::endl;
+        }
+        for (int i = 0; i < walker.joint_length.size();i++) {
+            my_file << walker.joint_length[i] << std::endl;
+        }
+        for (int i = 0; i < walker.density.size();i++) {
+            my_file << walker.density[i] << std::endl;
+        }
+        for (int i = 0; i < walker.restitution.size();i++) {
+            my_file << walker.restitution[i] << std::endl;
+        }
+        for (int i = 0; i < walker.friction.size();i++) {
+            my_file << walker.friction[i] << std::endl;
+        }
+        for (int i = 0; i < walker.restitution.size();i++) {
+            my_file << walker.restitution[i] << std::endl;
+        }
+        my_file << walker.lower_angle << std::endl;
+        my_file << walker.upper_angle << std::endl;
+        my_file << walker.max_motor_torque << std::endl;
+        my_file << walker.motor_speed << std::endl;
+        
+        my_file << walker.damping_ratio << std::endl;
+        my_file << walker.frequency_hz << std::endl;
+        for (int i = 0; i < walker.node_locations.size(); i++) {
+            for (int j = 0; j < walker.node_locations[i].size(); j++) {
+                my_file << walker.node_locations[i][j] << std::endl;
+            }
+        }
+    }
+    my_file.close();
+}
