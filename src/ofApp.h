@@ -50,14 +50,18 @@ public:
     float scaling_factor = 50.0;
     
     int screen_height = ofGetScreenHeight();
+    int screen_width = ofGetScreenWidth();
+    int line_count = 10;
+    int line_x_position = screen_width / line_count;
+    
     float y_scaling_factor = -1 * scaling_factor;
     
-    bool training = false;
-    bool read_from_file = true;
+    bool training = true;
+    bool read_from_file = false;
     bool no_gui = false;
 //    int ind = 0;
     
-    float x_offset =
+//    float x_offset = 5;
 
 };
 

@@ -20,7 +20,7 @@ World::World() {
     
     // Define the ground body.
     b2BodyDef groundBodyDef;
-    groundBodyDef.position = b2Vec2(0.0, 1.0);
+    groundBodyDef.position = b2Vec2(400.0, 1.0);
     
     // Call the body factory which allocates memory for the ground body
     // from a pool and creates the ground box shape (also from a pool).

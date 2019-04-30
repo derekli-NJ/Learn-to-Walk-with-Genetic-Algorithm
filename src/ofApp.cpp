@@ -3,8 +3,9 @@
 #include <vector>
 
 
-
+ 
 using std::vector;
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetFrameRate(60);
@@ -16,7 +17,6 @@ void ofApp::setup(){
 //    float start_position = walker.x_position;
     if (training) {
         vector<Walker> best_walkers = FindBestWalker(world);
-        WriteWalkerToFile(best_walkers);
         Walker walker = best_walkers[0];
         std::cout << "---Best Walker Params---" << std::endl;
         for (int i = 0; i < walker.joint_length.size(); i++) {
@@ -30,7 +30,7 @@ void ofApp::setup(){
     else if (read_from_file) {
         vector<Walker> best_walkers = ReadWalkerFromFile();
 //        if (ind < )
-        Walker walker = best_walkers[3];
+        Walker walker = best_walkers[0];
         world.AddWalker(walker);
     }
 
@@ -116,6 +116,7 @@ void ofApp::draw(){
 //    ground_param[1] -= ground_param[3];
     ofDrawRectangle(ground_param[0] * scaling_factor, (ground_param[1] + ground_param[3]) * y_scaling_factor + screen_height, ground_param[2] * scaling_factor, ground_param[3] * scaling_factor);
 //    }
+//    ofDrawRect
 
     vector<vector<vector<float>>> body_param = world.GetBodyDrawParameters();
     bool params_set = false;
@@ -127,6 +128,15 @@ void ofApp::draw(){
         for (int i = 0; i < body_param[walker_num].size(); i++) {
             for (int j = 0; j < body_param[walker_num][i].size(); j++) {
                 if (i == 1) {
+                    float x_offset = 0;
+                    if (body_param[walker_num][1][0] > 7.5) {
+                        x_offset = (7.5 - body_param[walker_num][1][0]) * scaling_factor;
+                    }
+//                    for (int i = 0; i < )
+                    for (int i = 0; i < line_x_position; i++) {
+                        ofDrawLine( (line_x_position * i) + x_offset, (ground_param[1] + ground_param[3]) * y_scaling_factor + screen_height, (line_x_position * i) + x_offset, ground_param[1] * y_scaling_factor + screen_height);
+                    }
+                    
                     x_position = body_param[walker_num][i][j] * scaling_factor;
                     y_position = body_param[walker_num][i][j+1] * y_scaling_factor + screen_height;
                     radius = body_param[walker_num][0][count] * scaling_factor;
@@ -135,7 +145,7 @@ void ofApp::draw(){
                         float last_x_position = body_param[walker_num][i][j-2] * scaling_factor;
                         float last_y_position = body_param[walker_num][i][j-1] * y_scaling_factor  + screen_height;
                         ofSetColor(0, 0, 0);
-                        ofDrawLine(x_position, y_position, last_x_position, last_y_position);
+                        ofDrawLine(x_position + x_offset, y_position, last_x_position + x_offset, last_y_position);
                     }
                     
                     if (count == 1) {
@@ -146,7 +156,7 @@ void ofApp::draw(){
                     }
                     count++;
 
-                    ofDrawCircle(x_position, y_position, radius);
+                    ofDrawCircle(x_position + x_offset, y_position, radius);
 
                     //need to skip by 2 j
                     j++;

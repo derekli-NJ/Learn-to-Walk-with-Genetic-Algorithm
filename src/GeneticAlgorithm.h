@@ -26,7 +26,7 @@ const int population_size = 150;
 const int parent_count = 25;
 const int final_walker_count = 3;
 
-const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/Data.txt";
+const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/Walker.txt";
 
 static std::default_random_engine generator(2019);
 //random is time(NULL)
