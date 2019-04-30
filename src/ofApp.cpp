@@ -25,12 +25,15 @@ void ofApp::setup(){
         for (int i = 0; i < walker.node_radius.size(); i++) {
             std::cout<< "Node radius " << walker.node_radius[i] << std::endl;
         }
-
-
+        world.AddWalker(walker);
+    }
+    else if (read_from_file) {
+        vector<Walker> best_walkers = ReadWalkerFromFile();
+//        if (ind < )
+        Walker walker = best_walkers[3];
         world.AddWalker(walker);
     }
 
-//    else {
     
     ofSetVerticalSync(true);
     

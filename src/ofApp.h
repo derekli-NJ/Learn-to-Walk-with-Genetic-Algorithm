@@ -52,7 +52,12 @@ public:
     int screen_height = ofGetScreenHeight();
     float y_scaling_factor = -1 * scaling_factor;
     
-    bool training = true;
+    bool training = false;
+    bool read_from_file = true;
     bool no_gui = false;
+//    int ind = 0;
+    
+    float x_offset =
+
 };
 

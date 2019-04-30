@@ -9,13 +9,14 @@
 #include <stdio.h>
 #include <vector>
 #include <random>
+#include <string>
 #include "Box2D/Box2D.h"
 #include "Box2D/Dynamics/b2World.h"
 #include "PhysicsWorld.h"
 #include "Walker.h"
 
 
-
+using std::string;
 using std::vector;
 
 const int time_step_count = 2400;
@@ -24,6 +25,8 @@ static int current_generation_count = 1;
 const int population_size = 150;
 const int parent_count = 25;
 const int final_walker_count = 3;
+
+const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/Data.txt";
 
 static std::default_random_engine generator(2019);
 //random is time(NULL)
@@ -68,7 +71,7 @@ float Simulation(Walker& walker, World& world);
 
 void WriteWalkerToFile(vector<Walker>& best_walkers);
 
-void ReadWalkerFromFile();
+vector<Walker> ReadWalkerFromFile();
 
 
 //#endif /* GeneticAlgorithm_h */

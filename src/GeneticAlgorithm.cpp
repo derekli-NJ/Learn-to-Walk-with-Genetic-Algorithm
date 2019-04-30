@@ -8,8 +8,10 @@
 #include "GeneticAlgorithm.h"
 #include <iostream>
 #include <fstream>
-using std::ofstream;
 
+using std::ofstream;
+using std::ifstream;
+using std::stof;
 
 vector<Walker> InitialGeneration() {
     vector<Walker> walkers;
@@ -238,17 +240,110 @@ void MutateJointGenes(vector<float>& joint_params) {
     }
 }
 
-void ReadWalkerFromFile() {
-    
+vector<Walker> ReadWalkerFromFile() {
+    vector<Walker> walkers;
+    string line;
+    ifstream my_file;
+    my_file.open(file_path);
+    if (my_file.is_open()) {
+        std::cout << "File is open for reading!" << std::endl;
+        
+        while (true) {
+            std::cout << "Entering file" << std::endl;
+            Walker walker;
+            
+            string node_count;
+            my_file >> node_count;
+            if (my_file.eof()) {
+                break;
+            }
+            std:: cout << node_count << std::endl;
+            float converted_node_count = stof(node_count);
+            walker.node_count = converted_node_count;
+            
+            for (int i = 0; i < walker.node_radius.size(); i++) {
+                string node_radius;
+                my_file >> node_radius;
+                float converted_node_radius = stof(node_radius);
+                walker.node_radius[i] = converted_node_radius;
+            }
+            for (int i = 0; i < walker.joint_length.size(); i++) {
+                string joint_length;
+                my_file >> joint_length;
+                float converted_joint_length = stof(joint_length);
+                walker.joint_length[i] = converted_joint_length;
+            }
+            for (int i = 0; i < walker.density.size(); i++) {
+                string density;
+                my_file >> density;
+                float converted_density = stof(density);
+                walker.density[i] = converted_density;
+            }
+            for (int i = 0; i < walker.friction.size(); i++) {
+                string friction;
+                my_file >> friction;
+                float converted_friction = stof(friction);
+                walker.friction[i] = converted_friction;
+            }
+            for (int i = 0; i < walker.restitution.size(); i++) {
+                string restitution;
+                my_file >> restitution;
+                float converted_restitution = stof(restitution);
+                walker.restitution[i] = converted_restitution;
+            }
+            string lower_angle;
+            my_file >> lower_angle;
+            float converted_lower_angle = stof(lower_angle);
+            walker.lower_angle = converted_lower_angle;
+            
+            string upper_angle;
+            my_file >> upper_angle;
+            float converted_upper_angle = stof(upper_angle);
+            walker.upper_angle = converted_upper_angle;
+            
+            string max_motor_torque;
+            my_file >> max_motor_torque;
+            float converted_max_motor_torque = stof(max_motor_torque);
+            walker.max_motor_torque = converted_max_motor_torque;
+            
+            string motor_speed;
+            my_file >> motor_speed;
+            float converted_motor_speed = stof(motor_speed);
+            walker.motor_speed = converted_motor_speed;
+            
+            string damping_ratio;
+            my_file >> damping_ratio;
+            float converted_damping_ratio = stof(damping_ratio);
+            walker.damping_ratio = converted_damping_ratio;
+            
+            string frequency_hz;
+            my_file >> frequency_hz;
+            float converted_frequency_hz = stof(frequency_hz);
+            walker.frequency_hz = converted_frequency_hz;
+            
+            for (int i = 0; i < walker.node_locations.size(); i++) {
+                for (int j = 0; j < walker.node_locations[i].size(); j++) {
+                    string node_location;
+                    my_file >> node_location;
+                    float converted_node_location = stof(node_location);
+                    walker.node_locations[i][j] = converted_node_location;
+                }
+            }
+            walker.Setup();
+            walkers.push_back(walker);
+        }
+        my_file.close();
+    }
+    return walkers;
 }
 
 
 void WriteWalkerToFile(vector<Walker>& best_walkers) {
     std::cout << "Writing to file" <<std::endl;
     ofstream my_file;
-    my_file.open("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/Data.txt");
+    my_file.open(file_path);
     if (my_file.is_open()) {
-        std::cout << "File is open!" << std::endl;
+        std::cout << "File is open for writing!" << std::endl;
     }
     for (Walker& walker: best_walkers) {
         my_file << walker.node_count << std::endl;
@@ -260,9 +355,6 @@ void WriteWalkerToFile(vector<Walker>& best_walkers) {
         }
         for (int i = 0; i < walker.density.size();i++) {
             my_file << walker.density[i] << std::endl;
-        }
-        for (int i = 0; i < walker.restitution.size();i++) {
-            my_file << walker.restitution[i] << std::endl;
         }
         for (int i = 0; i < walker.friction.size();i++) {
             my_file << walker.friction[i] << std::endl;
