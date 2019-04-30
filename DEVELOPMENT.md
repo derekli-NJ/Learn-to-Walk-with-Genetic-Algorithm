@@ -49,7 +49,7 @@ Just started work on the genetic algorithm and now I can mutate the joints param
 Had to implement a copy assignment operator oveload for the Walker class.
 
 ##### Monday April 29
-Was getting this really weird error where the vector was not able to push back and I went to office hours and fixed it by reserving memory. 
+Was getting this really weird error where the vector was not able to push back and I figured out the error was passing a reference of a 2D vector which had some weird shallow copy/deep copy errors which I needed to fix.
 
 ## To Do
 - [x] Create Box2D world in world object
@@ -65,5 +65,7 @@ Was getting this really weird error where the vector was not able to push back a
 - [x] Generate mutations 
 - [x] Calculate fitness scores
 - [ ] Implement Mate function 
+- [ ] Write to file
+- [ ] Read from file
 - [ ] Work on extensions?
 - [ ] Clean Up Code
