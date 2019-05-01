@@ -12,6 +12,7 @@ void ofApp::setup(){
 
     gc_evans.load("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/gcevans.png");
     jordans.load("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/shoes.png");
+    background.load("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/background.png");
     
     if (training) {
         vector<Walker> best_walkers = FindBestWalker(world);
@@ -50,6 +51,9 @@ void ofApp::setup(){
     
     gui.add(ringButton.setup("Time Step"));
     bHide = false;
+    
+    rectButton.set(200, 50, 100, 100);
+    bRectButton = false;
     
     screen_width = ofGetWidth();
     screen_height = ofGetHeight();
@@ -104,18 +108,47 @@ void ofApp::draw(){
     }else{
         ofNoFill();
     }
-    ofSetColor(color);
     ofSetLineWidth(4);
-    
+    if (start_screen) {
+        my_font.drawString("Press Space to Enter", screen_width - 800, screen_height - 500);
+        if (bRectButton) {
+            ofSetColor(ofColor::sandyBrown);
+        }
+        else {
+            ofSetColor(ofColor::seaGreen);
+        }
+        ofRect(rectButton);
+        return;
+//        my_font.drawString(generation_string, screen_width - 450, screen_height - 650);
+    }
     vector<float> ground_param = world.GetGroundDrawParameters();
 //    std::cout << "6" << std::endl;
 //    ground_param[0] -= ground_param[2];
 //    ground_param[1] -= ground_param[3];
-    ofDrawRectangle(ground_param[0] * scaling_factor, (ground_param[1] + ground_param[3]) * y_scaling_factor + screen_height, ground_param[2] * scaling_factor, ground_param[3] * scaling_factor);
 //    }
 //    ofDrawRect
 
     vector<vector<vector<float>>> body_param = world.GetBodyDrawParameters();
+    float x_offset = 0;
+    if (body_param[0][1][0] > 7.5) {
+        x_offset = (7.5 - body_param[0][1][0]) * scaling_factor;
+    }
+    ofSetColor(255, 255, 255);
+    float background_offset = x_offset;
+//    if (x_offset <= -screen_width) {
+//        std::cout << "off screen" << std::endl;
+//        background_offset += screen_width;
+////        background_offset = x_offset;
+//        std::cout << background_offset << std::endl;
+//    }
+    while (background_offset <= -screen_width) {
+        background_offset += screen_width;
+    }
+    background.draw(background_offset , 0, screen_width, screen_height);
+    background.draw(background_offset + screen_width, 0, screen_width, screen_height);
+    ofSetColor(color);
+    ofDrawRectangle(ground_param[0] * scaling_factor, (ground_param[1] + ground_param[3]) * y_scaling_factor + screen_height, ground_param[2] * scaling_factor, ground_param[3] * scaling_factor);
+
     bool params_set = false;
     float x_position = 0;
     float y_position = 0;
@@ -125,10 +158,6 @@ void ofApp::draw(){
         for (int i = 0; i < body_param[walker_num].size(); i++) {
             for (int j = 0; j < body_param[walker_num][i].size(); j++) {
                 if (i == 1) {
-                    float x_offset = 0;
-                    if (body_param[walker_num][1][0] > 7.5) {
-                        x_offset = (7.5 - body_param[walker_num][1][0]) * scaling_factor;
-                    }
 //                    for (int i = 0; i < 100; i++) {
 //                        int x = i * scaling_factor + x_offset;
 //                        ofDrawLine(x, (ground_param[1] + ground_param[3]) * y_scaling_factor + ofGetScreenHeight(), x, ground_param[1] * y_scaling_factor + ofGetScreenHeight());
@@ -155,11 +184,11 @@ void ofApp::draw(){
                     }
                     count++;
 
-                    if (i == 1 && (j == 0 || j == 4) && toggle) {
+                    if ((j == 0 || j == 4) && toggle) {
                         ofSetColor(255, 255, 255);
                         jordans.draw(x_position + x_offset - radius, y_position - radius * 0.5 , 2 * radius, 2 *  radius);
                     }
-                    if (i == 1 && j == 2 && toggle) {
+                    if (j == 2 && toggle) {
                         ofSetColor(255, 255, 255);
                         gc_x_position = x_position + x_offset - radius;
                         gc_y_position = y_position - radius;
@@ -178,13 +207,15 @@ void ofApp::draw(){
     if (toggle) {
         gc_evans.draw(gc_x_position, gc_y_position, gc_radius, gc_radius);
     }
-    ofSetColor(0, 0, 0);
     string fitness_string = "Fitness Score: " + std::to_string(fitness);
     string generation_string = "Generation: " + std::to_string(generation);
     if (fitness_string.size() > 21 || generation_string.size() > 21) {
         fitness_string = fitness_string.substr(0,21);
         generation_string = generation_string.substr(0,21);
     }
+    ofSetColor(255, 255, 255);
+    ofDrawPlane(screen_width - 300, screen_height - 750, 475, 300);
+    ofSetColor(0, 0, 0);
     my_font.drawString(fitness_string, screen_width - 450, screen_height - 700);
     my_font.drawString(generation_string, screen_width - 450, screen_height - 650);
     // auto draw?
@@ -206,7 +237,12 @@ void ofApp::keyPressed(int key){
         gui.loadFromFile("settings.xml");
     }
     else if(key == ' '){
-        toggle = !toggle;
+        if (start_screen) {
+            start_screen = false;
+        }
+        else if (!start_screen) {
+            toggle = !toggle;
+        }
     }
     else if (key == 'n') {
         if (read_from_file) {
@@ -243,7 +279,9 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    
+    if (rectButton.inside(x, y)) {
+        bRectButton = !bRectButton;
+    }
 }
 
 //--------------------------------------------------------------

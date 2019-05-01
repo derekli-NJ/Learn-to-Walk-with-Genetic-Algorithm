@@ -54,6 +54,7 @@ public:
     
     ofImage gc_evans;
     ofImage jordans;
+    ofImage background;
     
     ofRectangle rectButton;
     bool bRectButton;
