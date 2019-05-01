@@ -26,9 +26,9 @@ const int population_size = 150;
 const int parent_count = 25;
 const int final_walker_count = 3;
 
-const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/Walker.txt";
+const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/0.txt";
 
-static std::default_random_engine generator(2019);
+static std::default_random_engine generator(0);
 //random is time(NULL)
 
 //bounds of mutations for nodes
@@ -46,6 +46,10 @@ const vector<float> motor_torque_bound = {400.0f, 1000.0f};
 const vector<float> motor_speed_bound = {0.5f, 10.0f};
 
 const vector<vector<float>> joint_bounds = {lower_angle_bound, upper_angle_bound, motor_torque_bound, motor_speed_bound};
+
+static vector <Walker> best_from_generation;
+static vector <float> best_fitness_from_generation;
+
 
 
 float CalculateFitness(b2Body* node, float start_position);

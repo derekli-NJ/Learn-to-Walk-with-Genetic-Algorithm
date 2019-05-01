@@ -32,6 +32,7 @@ Walker::Walker() {
     //distance joint parameters
     damping_ratio = 1.0;
     frequency_hz = 0.0;
+    fitness = -99999;
     Setup();
 }
 
@@ -40,13 +41,6 @@ void Walker::Setup() {
     node_locations.reserve(node_count);
     float curr_x = x_position;
     
-    /*
-     vector<float> node_location = {x_position, y_position};
-     node_locations.push_back(node_location);
-     for (int i = 1; i < node_count; i++) {
-         node_location[0] = node_location[0] + node_radius[i-1] + node_radius[i] + joint_length[i-1];
-         node_locations.push_back(node_location);
-     }*/
     node_locations.push_back({curr_x, y_position});
     for (int i = 1; i < node_count; i++){
         curr_x += node_radius[i-1] + node_radius[i] + joint_length[i-1];
@@ -54,28 +48,6 @@ void Walker::Setup() {
     }
 }
 
-/*
- //node parameters
- int node_count;
- 
- vector<float> node_radius;
- vector<float> joint_length;
- vector<float> density;
- vector<float> friction;
- vector<float> restitution;
- 
- //revolute joints parameters
- float lower_angle; //multiplied by pi
- float upper_angle; //multiplied by pi
- float max_motor_torque;
- float motor_speed;
- 
- //distance joint parameters
- float damping_ratio;
- float frequency_hz;
- 
- vector<vector<float>> node_locations;
- */
 Walker::Walker(const Walker &walker) {
     node_count = walker.node_count;
     node_radius = walker.node_radius;
@@ -93,6 +65,7 @@ Walker::Walker(const Walker &walker) {
     frequency_hz = walker.frequency_hz;
     
     node_locations = walker.node_locations;
+    fitness = walker.fitness;
 }
 
 
@@ -115,6 +88,7 @@ Walker& Walker::operator= (const Walker &walker) {
     frequency_hz = walker.frequency_hz;
     
     node_locations = walker.node_locations;
+    fitness = walker.fitness;
     
     // Overloaded assignment
     return *this;

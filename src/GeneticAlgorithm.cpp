@@ -22,9 +22,7 @@ vector<Walker> InitialGeneration() {
         vector<float> test1 = joint_param;
         
         InitialJointGeneration(joint_param);
-//        for (int i = 0; i < joint_param.size(); i++) {
-//            std::cout << "Old value: " << test1[i] << " New Value: " << joint_param[i] << std::endl;
-//        }
+
         walker.lower_angle = joint_param[0];
         walker.upper_angle = joint_param[1];
         walker.max_motor_torque = joint_param[2];
@@ -40,20 +38,15 @@ vector<Walker> InitialGeneration() {
         walker.friction = node_param[2];
         walker.restitution = node_param[3];
         walker.joint_length = node_param[4];
-//        std::cout << &walker << std::endl;
-        
-        //Walker local_walker;
-        //walkers.push_back(local_walker);
+
         walker.Setup();
         walkers.push_back(walker);
-//        vector<LivingWalker> living_walker = world.AddWalker(walker);
     }
-//    walkers.push_back(Walker());
     return walkers;
 }
 
 vector<Walker> FindBestWalker(World world) {
-    srand (2019);
+    srand (0);
     vector<Walker> children = InitialGeneration();
     vector<Walker> parents;
     for (int i = 0; i < generation_count; i++) {
@@ -63,7 +56,10 @@ vector<Walker> FindBestWalker(World world) {
         current_generation_count += 1;
     }
     std::cout << "Training"<<std::endl;
-    return (Training(children, world));
+    vector<Walker> best_walkers = Training(children, world);
+    
+    WriteWalkerToFile(best_from_generation);
+    return (best_walkers);
 }
 
 vector<Walker> Training(vector<Walker>& walkers, World& world) {
@@ -75,6 +71,10 @@ vector<Walker> Training(vector<Walker>& walkers, World& world) {
     for (int i = 0; i < parent_count; i++) {
         int max_element_index = std::max_element(fitness_scores.begin(), fitness_scores.end()) - fitness_scores.begin();
         parents.push_back(walkers[max_element_index]);
+        if (i == 0) {
+            best_from_generation.push_back(walkers[max_element_index]);
+            best_fitness_from_generation.push_back(fitness_scores[max_element_index]);
+        }
         walkers.erase(walkers.begin() + max_element_index);
         fitness_scores.erase(fitness_scores.begin() + max_element_index);
     }
@@ -86,11 +86,10 @@ float Simulation(Walker& walker, World& world) {
     World world2;
     float start_position = walker.x_position;
     vector<LivingWalker> living_walker = world2.AddWalker(walker);
-//    std::cout << "Before time step" <<std::endl;
+
     for (int i = 0; i < time_step_count; i++) {
         world2.TimeStep();
     }
-//    std::cout << "After time step" <<std::endl;
 
     float fitness = CalculateFitness(living_walker[0].body_storage[0], walker.x_position);
     for (int i = 0; i < living_walker[0].body_storage.size(); i++) {
@@ -156,29 +155,19 @@ vector<vector<float>> InitialNodeGeneration(vector<vector<float>>& walker_params
         vector<float> tmp2;
         for (int j = 0; j < walker_params[i].size();j++) {
             float random_number = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-//            float random_number = 1.0f;
             float range = node_bounds[i][1] - node_bounds[i][0];
             tmp2.push_back(random_number * range + node_bounds[i][0]);
-//            walker_params[i][j] = random_number * range + node_bounds[i][0];
         }
         tmp.push_back(tmp2);
     }
     return tmp;
-//    for (auto v : walker_params) {
-//        for (float x : v) {
-//            std::cout << x << ", ";
-//        }
-//        std::cout << std::endl;
-//    }
 }
 
 
 void InitialJointGeneration(vector<float>& joint_params) {
     //mutate joint genes about the current parameter by a normal distribution and calculated standard deviation
-//    srand (time(NULL));
     for (int i = 0; i < joint_bounds.size(); i++) {
         float random_number = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-//        float random_number = 1.0f;
         float range = joint_bounds[i][1] - joint_bounds[i][0];
         joint_params[i] = random_number * range + joint_bounds[i][0];
     }
@@ -216,8 +205,6 @@ void MutateNodeGenes(vector<vector<float>>& walker_params) {
 void MutateJointGenes(vector<float>& joint_params) {
     //mutate joint genes about the current parameter by a normal distribution and calculated standard deviation
     
-    //bounds of mutations
-
     //calculates standard deviation for each parameter
     vector<float> standard_deviation;
     for (int i = 0; i < joint_bounds.size(); i++) {
@@ -247,7 +234,6 @@ vector<Walker> ReadWalkerFromFile() {
     my_file.open(file_path);
     if (my_file.is_open()) {
         std::cout << "File is open for reading!" << std::endl;
-        
         while (true) {
             std::cout << "Entering file" << std::endl;
             Walker walker;
@@ -329,6 +315,11 @@ vector<Walker> ReadWalkerFromFile() {
                     walker.node_locations[i][j] = converted_node_location;
                 }
             }
+            string fitness;
+            my_file >> fitness;
+            float converted_fitness = stof(fitness);
+            walker.fitness = converted_fitness;
+            
             walker.Setup();
             walkers.push_back(walker);
         }
@@ -345,35 +336,40 @@ void WriteWalkerToFile(vector<Walker>& best_walkers) {
     if (my_file.is_open()) {
         std::cout << "File is open for writing!" << std::endl;
     }
-    for (Walker& walker: best_walkers) {
-        my_file << walker.node_count << std::endl;
-        for (int i = 0; i < walker.node_radius.size();i++) {
-            my_file << walker.node_radius[i] << std::endl;
+    if (best_walkers.size() != best_fitness_from_generation.size()) {
+        std::cout << "Failed when building vectors" << std::endl;
+    }
+    for (int ind = 0; ind < best_walkers.size(); ind++) {
+        my_file << best_walkers[ind].node_count << std::endl;
+        for (int i = 0; i < best_walkers[ind].node_radius.size();i++) {
+            my_file << best_walkers[ind].node_radius[i] << std::endl;
         }
-        for (int i = 0; i < walker.joint_length.size();i++) {
-            my_file << walker.joint_length[i] << std::endl;
+        for (int i = 0; i < best_walkers[ind].joint_length.size();i++) {
+            my_file << best_walkers[ind].joint_length[i] << std::endl;
         }
-        for (int i = 0; i < walker.density.size();i++) {
-            my_file << walker.density[i] << std::endl;
+        for (int i = 0; i < best_walkers[ind].density.size();i++) {
+            my_file << best_walkers[ind].density[i] << std::endl;
         }
-        for (int i = 0; i < walker.friction.size();i++) {
-            my_file << walker.friction[i] << std::endl;
+        for (int i = 0; i < best_walkers[ind].friction.size();i++) {
+            my_file << best_walkers[ind].friction[i] << std::endl;
         }
-        for (int i = 0; i < walker.restitution.size();i++) {
-            my_file << walker.restitution[i] << std::endl;
+        for (int i = 0; i < best_walkers[ind].restitution.size();i++) {
+            my_file << best_walkers[ind].restitution[i] << std::endl;
         }
-        my_file << walker.lower_angle << std::endl;
-        my_file << walker.upper_angle << std::endl;
-        my_file << walker.max_motor_torque << std::endl;
-        my_file << walker.motor_speed << std::endl;
+        my_file << best_walkers[ind].lower_angle << std::endl;
+        my_file << best_walkers[ind].upper_angle << std::endl;
+        my_file << best_walkers[ind].max_motor_torque << std::endl;
+        my_file << best_walkers[ind].motor_speed << std::endl;
         
-        my_file << walker.damping_ratio << std::endl;
-        my_file << walker.frequency_hz << std::endl;
-        for (int i = 0; i < walker.node_locations.size(); i++) {
-            for (int j = 0; j < walker.node_locations[i].size(); j++) {
-                my_file << walker.node_locations[i][j] << std::endl;
+        my_file << best_walkers[ind].damping_ratio << std::endl;
+        my_file << best_walkers[ind].frequency_hz << std::endl;
+        for (int i = 0; i < best_walkers[ind].node_locations.size(); i++) {
+            for (int j = 0; j < best_walkers[ind].node_locations[i].size(); j++) {
+                my_file << best_walkers[ind].node_locations[i][j] << std::endl;
             }
         }
+        my_file << best_fitness_from_generation[ind] << std::endl;
+        
     }
     my_file.close();
 }

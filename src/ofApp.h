@@ -5,6 +5,9 @@
 #include "PhysicsWorld.h"
 #include "Walker.h"
 #include "GeneticAlgorithm.h"
+#include <string>
+
+using std::string;
 
 class ofApp : public ofBaseApp{
     
@@ -42,25 +45,34 @@ public:
     ofxLabel screenSize;
     
     ofxPanel gui;
+    
     World world;
-
     
     ofSoundPlayer ring;
+
+    ofTrueTypeFont my_font;
+    
+    
     
     float scaling_factor = 50.0;
     
-    int screen_height = ofGetScreenHeight();
-    int screen_width = ofGetScreenWidth();
+    int screen_height;
+    int screen_width;
     int line_count = 10;
-    int line_x_position = screen_width / line_count;
+    int line_x_position;
     
     float y_scaling_factor = -1 * scaling_factor;
     
     bool training = true;
     bool read_from_file = false;
     bool no_gui = false;
-//    int ind = 0;
     
+    vector<Walker> best_walkers;
+    
+//    int count = 1;
+    
+    float fitness;
+    int generation = 1;
 //    float x_offset = 5;
 
 };

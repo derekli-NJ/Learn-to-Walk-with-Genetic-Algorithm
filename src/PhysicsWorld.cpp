@@ -39,14 +39,11 @@ World::World() {
     
     
     b2Vec2 ground_position = groundBody -> GetPosition();
-//    std::cout << ground_position.x << std::endl;
-//    std::cout << ground_position.y << std::endl;
     
     ground_draw_parameters.push_back(ground_position.x - ground_width / 2);
     ground_draw_parameters.push_back(ground_position.y - ground_height / 2);
     ground_draw_parameters.push_back(ground_width);
     ground_draw_parameters.push_back(ground_height);
-//
 }
 
 void World::DeleteWorld() {
@@ -176,3 +173,20 @@ vector<vector<vector<float>>> World::GetBodyDrawParameters() {
 vector<float>& World::GetGroundDrawParameters() {
     return ground_draw_parameters;
 }
+
+
+//Equal assignment operator overload
+World& World::operator= (const World &world) {
+    // do the copy
+    joint = world.joint;
+    time = world.time;
+    ground_draw_parameters = world.ground_draw_parameters;
+    this -> world = world.world;
+    positions = world.positions;
+    living_walkers = world.living_walkers;
+    bodies = world.bodies;
+    
+    // Overloaded assignment
+    return *this;
+}
+

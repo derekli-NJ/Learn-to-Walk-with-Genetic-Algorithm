@@ -44,6 +44,9 @@ class World {
 
 //        const vector<b2Vec2>& GetJointDrawParameters();
         void DeleteWorld();
+    
+        // Overloaded assignment operator
+        World& operator= (const World &world);
         
     private:
         b2World* world;
@@ -51,10 +54,6 @@ class World {
         vector<LivingWalker> living_walkers;
         vector<b2Body*> bodies;
 
-    
-    
-
-    
         const float ground_width = 10000.0f;
         const float ground_height = 2.0f;
 

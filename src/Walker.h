@@ -42,6 +42,8 @@ class Walker {
     
         vector<vector<float>> node_locations;
     
+        float fitness;
+    
         const float x_position = 1.5;
         const float y_position = 4;
     

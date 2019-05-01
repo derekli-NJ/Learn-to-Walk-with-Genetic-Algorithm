@@ -9,15 +9,11 @@ using std::vector;
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetFrameRate(60);
-//    int time_step_count = 1000;
-//    int generation_count = 1;
-//    int population_size = 100;
 
-    
-//    float start_position = walker.x_position;
     if (training) {
         vector<Walker> best_walkers = FindBestWalker(world);
         Walker walker = best_walkers[0];
+        fitness = walker.fitness;
         std::cout << "---Best Walker Params---" << std::endl;
         for (int i = 0; i < walker.joint_length.size(); i++) {
             std::cout<< "Joint length " << walker.joint_length[i] << std::endl;
@@ -28,9 +24,9 @@ void ofApp::setup(){
         world.AddWalker(walker);
     }
     else if (read_from_file) {
-        vector<Walker> best_walkers = ReadWalkerFromFile();
-//        if (ind < )
+        best_walkers = ReadWalkerFromFile();
         Walker walker = best_walkers[0];
+        fitness = walker.fitness;
         world.AddWalker(walker);
     }
 
@@ -41,24 +37,22 @@ void ofApp::setup(){
     circleResolution.addListener(this, &ofApp::circleResolutionChanged);
     ringButton.addListener(this, &ofApp::ringButtonPressed);
     
-    
-
-    
     gui.setup(); // most of the time you don't need a name
     gui.add(filled.setup("fill", true));
     gui.add(color.setup("color", ofColor(100, 100, 140), ofColor(0, 0), ofColor(255, 255)));
     gui.add(circleResolution.setup("circle res", 90, 3, 90));
     gui.add(screenSize.setup("screen size", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
     
+    
+    
     gui.add(ringButton.setup("Time Step"));
     bHide = false;
     
-    std::cout << "what the hell" <<std::endl;
+    screen_width = ofGetWidth();
+    screen_height = ofGetHeight();
+    line_x_position = screen_width / line_count;
+    my_font.load("Avenir.ttf", 32);
 //    ring.load("ring.wav");
-    
-    std::cout << "1" <<std::endl;
-
-//    }
 }
 
 
@@ -132,10 +126,13 @@ void ofApp::draw(){
                     if (body_param[walker_num][1][0] > 7.5) {
                         x_offset = (7.5 - body_param[walker_num][1][0]) * scaling_factor;
                     }
-//                    for (int i = 0; i < )
+//                    for (int i = 0; i < 100; i++) {
+//                        int x = i * scaling_factor + x_offset;
+//                        ofDrawLine(x, (ground_param[1] + ground_param[3]) * y_scaling_factor + ofGetScreenHeight(), x, ground_param[1] * y_scaling_factor + ofGetScreenHeight());
                     for (int i = 0; i < line_x_position; i++) {
                         ofDrawLine( (line_x_position * i) + x_offset, (ground_param[1] + ground_param[3]) * y_scaling_factor + screen_height, (line_x_position * i) + x_offset, ground_param[1] * y_scaling_factor + screen_height);
                     }
+//                    }
                     
                     x_position = body_param[walker_num][i][j] * scaling_factor;
                     y_position = body_param[walker_num][i][j+1] * y_scaling_factor + screen_height;
@@ -165,6 +162,15 @@ void ofApp::draw(){
             }
         }
     }
+    ofSetColor(0, 0, 0);
+    string fitness_string = "Fitness Score: " + std::to_string(fitness);
+    string generation_string = "Generation: " + std::to_string(generation);
+    if (fitness_string.size() > 21 || generation_string.size() > 21) {
+        fitness_string = fitness_string.substr(0,21);
+        generation_string = generation_string.substr(0,21);
+    }
+    my_font.drawString(fitness_string, screen_width - 450, screen_height - 700);
+    my_font.drawString(generation_string, screen_width - 450, screen_height - 650);
     // auto draw?
     // should the gui control hiding?
     if(!bHide){
@@ -187,8 +193,20 @@ void ofApp::keyPressed(int key){
         ringButtonPressed();
     }
     else if (key == 'n') {
-//        world.joint -> EnableMotor(!world.joint -> IsMotorEnabled());
-        world.joint -> SetMotorSpeed(-world.joint -> GetMotorSpeed());
+        if (read_from_file) {
+            if (generation < best_walkers.size()) {
+                world.DeleteWorld();
+                world = World();
+                Walker walker = best_walkers[generation];
+                fitness = walker.fitness;
+                generation++;
+                world.AddWalker(walker);
+            }
+            else {
+                std::cout << "Last generation" << std::endl;
+            }
+
+        }
     }
 }
 
@@ -231,6 +249,7 @@ void ofApp::mouseExited(int x, int y){
 void ofApp::windowResized(int w, int h){
     screenSize = ofToString(w) + "x" + ofToString(h);
     screen_height = h;
+    screen_width = w;
 }
 
 //--------------------------------------------------------------
