@@ -46,7 +46,7 @@ vector<Walker> InitialGeneration() {
 }
 
 vector<Walker> FindBestWalker(World world) {
-    srand (0);
+    srand (1);
     vector<Walker> children = InitialGeneration();
     vector<Walker> parents;
     for (int i = 0; i < generation_count; i++) {
@@ -180,7 +180,7 @@ void MutateNodeGenes(vector<vector<float>>& walker_params) {
     //calculates standard deviation for each parameter
     vector<float> standard_deviation;
     for (int i = 0; i < node_bounds.size(); i++) {
-        float std_dev = (node_bounds[i][1] - node_bounds[i][0]) / 8;
+        float std_dev = (node_bounds[i][1] - node_bounds[i][0]) / 12;
         standard_deviation.push_back(std_dev);
     }
 
@@ -208,7 +208,7 @@ void MutateJointGenes(vector<float>& joint_params) {
     //calculates standard deviation for each parameter
     vector<float> standard_deviation;
     for (int i = 0; i < joint_bounds.size(); i++) {
-        float std_dev = (joint_bounds[i][1] - joint_bounds[i][0]) / 8;
+        float std_dev = (joint_bounds[i][1] - joint_bounds[i][0]) / 12;
         standard_deviation.push_back(std_dev);
     }
     //calculates normal distribution and normalizes if outside of the bounds

@@ -22,13 +22,13 @@ using std::vector;
 const int time_step_count = 2400;
 const int generation_count = 100;
 static int current_generation_count = 1;
-const int population_size = 150;
-const int parent_count = 25;
+const int population_size = 300;
+const int parent_count = 50;
 const int final_walker_count = 3;
 
-const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/0.txt";
+const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/1.txt";
 
-static std::default_random_engine generator(0);
+static std::default_random_engine generator(1);
 //random is time(NULL)
 
 //bounds of mutations for nodes
