@@ -10,6 +10,9 @@ using std::vector;
 void ofApp::setup(){
     ofSetFrameRate(60);
 
+    gc_evans.load("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/gcevans.png");
+    jordans.load("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/shoes.png");
+    
     if (training) {
         vector<Walker> best_walkers = FindBestWalker(world);
         Walker walker = best_walkers[0];
@@ -93,9 +96,9 @@ void ofApp::draw(){
     if (no_gui) {
         return;
     }
+    
+    
     ofBackgroundGradient(ofColor::white, ofColor::gray);
-//    std::cout << "5" <<std::endl;
-
     if(filled){
         ofFill();
     }else{
@@ -138,7 +141,6 @@ void ofApp::draw(){
                     y_position = body_param[walker_num][i][j+1] * y_scaling_factor + screen_height;
                     radius = body_param[walker_num][0][count] * scaling_factor;
                     if (j > 1) {
-                        //                        std::cout << "drawing lines" << std::endl;
                         float last_x_position = body_param[walker_num][i][j-2] * scaling_factor;
                         float last_y_position = body_param[walker_num][i][j-1] * y_scaling_factor  + screen_height;
                         ofSetColor(0, 0, 0);
@@ -153,14 +155,28 @@ void ofApp::draw(){
                     }
                     count++;
 
-                    ofDrawCircle(x_position + x_offset, y_position, radius);
-
+                    if (i == 1 && (j == 0 || j == 4) && toggle) {
+                        ofSetColor(255, 255, 255);
+                        jordans.draw(x_position + x_offset - radius, y_position - radius * 0.5 , 2 * radius, 2 *  radius);
+                    }
+                    if (i == 1 && j == 2 && toggle) {
+                        ofSetColor(255, 255, 255);
+                        gc_x_position = x_position + x_offset - radius;
+                        gc_y_position = y_position - radius;
+                        gc_radius = 2 * radius;
+                    }
+                    else if (!toggle) {
+                        ofDrawCircle(x_position + x_offset, y_position, radius);
+                    }
                     //need to skip by 2 j
                     j++;
                     params_set = false;
                 }
             }
         }
+    }
+    if (toggle) {
+        gc_evans.draw(gc_x_position, gc_y_position, gc_radius, gc_radius);
     }
     ofSetColor(0, 0, 0);
     string fitness_string = "Fitness Score: " + std::to_string(fitness);
@@ -190,7 +206,7 @@ void ofApp::keyPressed(int key){
         gui.loadFromFile("settings.xml");
     }
     else if(key == ' '){
-        ringButtonPressed();
+        toggle = !toggle;
     }
     else if (key == 'n') {
         if (read_from_file) {

@@ -54,6 +54,9 @@ Was getting this really weird error where the vector was not able to push back a
 ##### Tuesday April 30
 Implemented a sliding window so that you can follow the walker as it passes the initial window. Also, added the fitness score and generation count to the screen.
 
+##### Wednesday May 1
+Added pictures to the nodes that can be toggled (nice surprise).
+
 ## To Do
 - [x] Create Box2D world in world object
 - [x] Create nodes for walker
@@ -72,5 +75,7 @@ Implemented a sliding window so that you can follow the walker as it passes the 
 - [x] Read from file
 - [x] Scrolling window
 - [x] Add text to screen
+- [x] Add images to nodes (make more life like)
+- [ ] Add start screen to train or read from file
 - [ ] Work on extensions?
 - [ ] Clean Up Code

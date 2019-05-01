@@ -52,7 +52,11 @@ public:
 
     ofTrueTypeFont my_font;
     
+    ofImage gc_evans;
+    ofImage jordans;
     
+    ofRectangle rectButton;
+    bool bRectButton;
     
     float scaling_factor = 50.0;
     
@@ -63,9 +67,11 @@ public:
     
     float y_scaling_factor = -1 * scaling_factor;
     
-    bool training = true;
-    bool read_from_file = false;
+    bool training = false;
+    bool read_from_file = true;
     bool no_gui = false;
+    bool toggle = false;
+    bool start_screen = true;
     
     vector<Walker> best_walkers;
     
@@ -73,7 +79,11 @@ public:
     
     float fitness;
     int generation = 1;
-//    float x_offset = 5;
+    
+    float gc_x_position;
+    float gc_y_position;
+    float gc_radius;
+    
 
 };
 
