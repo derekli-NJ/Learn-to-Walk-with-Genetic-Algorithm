@@ -52,7 +52,7 @@ Had to implement a copy assignment operator oveload for the Walker class.
 Was getting this really weird error where the vector was not able to push back and I figured out the error was passing a reference of a 2D vector which had some weird shallow copy/deep copy errors which I needed to fix. Also, I added write to file so that I can save the parameters of the best walkers. I can also read the best walkers from the file and replay them in the GUI
 
 ##### Tuesday April 30
-Implemented a sliding window so that you can follow the walker as it passes the initial window.
+Implemented a sliding window so that you can follow the walker as it passes the initial window. Also, added the fitness score and generation count to the screen.
 
 ## To Do
 - [x] Create Box2D world in world object
@@ -71,5 +71,6 @@ Implemented a sliding window so that you can follow the walker as it passes the 
 - [x] Write to file
 - [x] Read from file
 - [x] Scrolling window
+- [x] Add text to screen
 - [ ] Work on extensions?
 - [ ] Clean Up Code
