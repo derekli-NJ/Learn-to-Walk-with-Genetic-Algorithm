@@ -73,10 +73,11 @@ public:
     bool no_gui = false;
     bool toggle = false;
     bool start_screen = true;
+    bool pause_screen = false;
     
     vector<Walker> best_walkers;
     
-//    int count = 1;
+    float time = 0;
     
     float fitness;
     int generation = 1;

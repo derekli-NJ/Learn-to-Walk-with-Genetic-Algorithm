@@ -15,7 +15,7 @@ void ofApp::setup(){
     background.load("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/background.png");
     
     if (training) {
-        vector<Walker> best_walkers = FindBestWalker(world);
+        vector<Walker> best_walkers = FindBestWalker();
         Walker walker = best_walkers[0];
         fitness = walker.fitness;
         std::cout << "---Best Walker Params---" << std::endl;
@@ -86,11 +86,10 @@ void ofApp::update(){
 //    std::cout << "2" <<std::endl;
 
     ofSetCircleResolution(circleResolution);
-    world.TimeStep();
-    
-//    std::cout << "3" <<std::endl;
-
-
+    if (!pause_screen && !start_screen) {
+        world.TimeStep();
+        time++;
+    }
 }
 
 //--------------------------------------------------------------
@@ -100,8 +99,6 @@ void ofApp::draw(){
     if (no_gui) {
         return;
     }
-    
-    
     ofBackgroundGradient(ofColor::white, ofColor::gray);
     if(filled){
         ofFill();
@@ -119,14 +116,9 @@ void ofApp::draw(){
         }
         ofRect(rectButton);
         return;
-//        my_font.drawString(generation_string, screen_width - 450, screen_height - 650);
     }
+    
     vector<float> ground_param = world.GetGroundDrawParameters();
-//    std::cout << "6" << std::endl;
-//    ground_param[0] -= ground_param[2];
-//    ground_param[1] -= ground_param[3];
-//    }
-//    ofDrawRect
 
     vector<vector<vector<float>>> body_param = world.GetBodyDrawParameters();
     float x_offset = 0;
@@ -135,12 +127,7 @@ void ofApp::draw(){
     }
     ofSetColor(255, 255, 255);
     float background_offset = x_offset;
-//    if (x_offset <= -screen_width) {
-//        std::cout << "off screen" << std::endl;
-//        background_offset += screen_width;
-////        background_offset = x_offset;
-//        std::cout << background_offset << std::endl;
-//    }
+    
     while (background_offset <= -screen_width) {
         background_offset += screen_width;
     }
@@ -158,13 +145,10 @@ void ofApp::draw(){
         for (int i = 0; i < body_param[walker_num].size(); i++) {
             for (int j = 0; j < body_param[walker_num][i].size(); j++) {
                 if (i == 1) {
-//                    for (int i = 0; i < 100; i++) {
-//                        int x = i * scaling_factor + x_offset;
-//                        ofDrawLine(x, (ground_param[1] + ground_param[3]) * y_scaling_factor + ofGetScreenHeight(), x, ground_param[1] * y_scaling_factor + ofGetScreenHeight());
+
                     for (int i = 0; i < line_x_position; i++) {
                         ofDrawLine( (line_x_position * i) + x_offset, (ground_param[1] + ground_param[3]) * y_scaling_factor + screen_height, (line_x_position * i) + x_offset, ground_param[1] * y_scaling_factor + screen_height);
                     }
-//                    }
                     
                     x_position = body_param[walker_num][i][j] * scaling_factor;
                     y_position = body_param[walker_num][i][j+1] * y_scaling_factor + screen_height;
@@ -207,17 +191,34 @@ void ofApp::draw(){
     if (toggle) {
         gc_evans.draw(gc_x_position, gc_y_position, gc_radius, gc_radius);
     }
+    float distance = body_param[0][1][0] - 1.5;
+    
     string fitness_string = "Fitness Score: " + std::to_string(fitness);
     string generation_string = "Generation: " + std::to_string(generation);
-    if (fitness_string.size() > 21 || generation_string.size() > 21) {
-        fitness_string = fitness_string.substr(0,21);
-        generation_string = generation_string.substr(0,21);
-    }
+    string timer_string = "Time: " + std::to_string(time / 60);
+    timer_string = timer_string.substr(0, 11);
+    timer_string +=  "s";
+    string distance_string = "Distance: " + std::to_string(distance);
+    fitness_string = fitness_string.substr(0, 21);
+    generation_string = generation_string.substr(0, 21);
+    distance_string = distance_string.substr(0, 14);
+    
     ofSetColor(255, 255, 255);
-    ofDrawPlane(screen_width - 300, screen_height - 750, 475, 300);
+    ofDrawPlane(screen_width - 275, screen_height - 750, 375, 300);
+    ofDrawPlane(screen_width - 750, screen_height - 750, 325, 300);
     ofSetColor(0, 0, 0);
     my_font.drawString(fitness_string, screen_width - 450, screen_height - 700);
     my_font.drawString(generation_string, screen_width - 450, screen_height - 650);
+    my_font.drawString(timer_string, screen_width - 875, screen_height - 700);
+    my_font.drawString(distance_string, screen_width - 875, screen_height - 650);
+    
+    if (pause_screen) {
+        ofSetColor(255, 255, 255);
+        ofDrawPlane(screen_width - 500, screen_height - 400, 200, 100);
+        ofSetColor(0, 0, 0);
+        my_font.drawString( "Paused", screen_width - 550, screen_height - 400);
+    }
+    
     // auto draw?
     // should the gui control hiding?
     if(!bHide){
@@ -231,7 +232,10 @@ void ofApp::keyPressed(int key){
         bHide = !bHide;
     }
     else if(key == 's'){
-        gui.saveToFile("settings.xml");
+        if (pause_screen) {
+            world.TimeStep();
+            time++;
+        }
     }
     else if(key == 'l'){
         gui.loadFromFile("settings.xml");
@@ -247,6 +251,7 @@ void ofApp::keyPressed(int key){
     else if (key == 'n') {
         if (read_from_file) {
             if (generation < best_walkers.size()) {
+                time = 0;
                 world.DeleteWorld();
                 world = World();
                 Walker walker = best_walkers[generation];
@@ -259,6 +264,25 @@ void ofApp::keyPressed(int key){
             }
 
         }
+    }
+    else if (key == 'b') {
+        if (read_from_file) {
+            if (generation > 1) {
+                time = 0;
+                world.DeleteWorld();
+                world = World();
+                Walker walker = best_walkers[generation];
+                fitness = walker.fitness;
+                generation--;
+                world.AddWalker(walker);
+            }
+            else {
+                std::cout << "First generation" << std::endl;
+            }
+        }
+    }
+    else if (key == 'p') {
+        pause_screen = !pause_screen;
     }
 }
 

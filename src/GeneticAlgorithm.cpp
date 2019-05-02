@@ -45,28 +45,28 @@ vector<Walker> InitialGeneration() {
     return walkers;
 }
 
-vector<Walker> FindBestWalker(World world) {
+vector<Walker> FindBestWalker() {
     srand (1);
     vector<Walker> children = InitialGeneration();
     vector<Walker> parents;
     for (int i = 0; i < generation_count; i++) {
         std::cout<<current_generation_count<<std::endl;
-        parents = Training(children, world);
+        parents = Training(children);
         children = MakeChildren(parents);
         current_generation_count += 1;
     }
     std::cout << "Training"<<std::endl;
-    vector<Walker> best_walkers = Training(children, world);
+    vector<Walker> best_walkers = Training(children);
     
     WriteWalkerToFile(best_from_generation);
     return (best_walkers);
 }
 
-vector<Walker> Training(vector<Walker>& walkers, World& world) {
+vector<Walker> Training(vector<Walker>& walkers) {
     vector<float> fitness_scores;
     vector<Walker> parents;
     for (Walker& walker : walkers) {
-        fitness_scores.push_back(Simulation(walker, world));
+        fitness_scores.push_back(Simulation(walker));
     }
     for (int i = 0; i < parent_count; i++) {
         int max_element_index = std::max_element(fitness_scores.begin(), fitness_scores.end()) - fitness_scores.begin();
@@ -82,18 +82,17 @@ vector<Walker> Training(vector<Walker>& walkers, World& world) {
 }
 
 
-float Simulation(Walker& walker, World& world) {
-    World world2;
-    float start_position = walker.x_position;
-    vector<LivingWalker> living_walker = world2.AddWalker(walker);
+float Simulation(Walker& walker) {
+    World world;
+    vector<LivingWalker> living_walker = world.AddWalker(walker);
 
     for (int i = 0; i < time_step_count; i++) {
-        world2.TimeStep();
+        world.TimeStep();
     }
 
     float fitness = CalculateFitness(living_walker[0].body_storage[0], walker.x_position);
     for (int i = 0; i < living_walker[0].body_storage.size(); i++) {
-        world2.DeleteBody(living_walker[0].body_storage[i]);
+        world.DeleteBody(living_walker[0].body_storage[i]);
     }
     return fitness;
 }

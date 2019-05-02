@@ -63,15 +63,15 @@ void MutateNodeGenes(vector<vector<float>>& walker_params);
 
 void MutateJointGenes(vector<float>& joint_params);
 
-vector<Walker> FindBestWalker(World world);
+vector<Walker> FindBestWalker();
 
 vector<Walker> InitialGeneration();
 
-vector<Walker> Training(vector<Walker>& walkers, World& world);
+vector<Walker> Training(vector<Walker>& walkers);
 
 vector<Walker> MakeChildren(vector<Walker>& parents);
 
-float Simulation(Walker& walker, World& world);
+float Simulation(Walker& walker);
 
 void WriteWalkerToFile(vector<Walker>& best_walkers);
 
