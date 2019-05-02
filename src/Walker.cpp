@@ -8,15 +8,10 @@
 #include "Walker.h"
 
 Walker::Walker() {
-    //clear values
-    //    x_position = 250;
-    //    y_position = 250;
+
     node_count = 3;
     
     node_radius = {0.5, 0.5, 0.5};
-    //    node_radius.push_back(0.5);
-    //    node_radius.push_back(0.5);
-    //    node_radius.push_back(0.5);
     
     joint_length = {1, 1};
     density = {1.0, 2.0, 2.0};

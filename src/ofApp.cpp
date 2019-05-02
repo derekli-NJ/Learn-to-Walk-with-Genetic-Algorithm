@@ -14,19 +14,13 @@ void ofApp::setup(){
     jordans.load("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/shoes.png");
     background.load("/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/background.png");
     
-
-
-
-    
     ofSetVerticalSync(true);
     
     // we add this listener before setting up so the initial circle resolution is correct
     circleResolution.addListener(this, &ofApp::circleResolutionChanged);
-//    ringButton.addListener(this, &ofApp::ringButtonPressed);
     
     gui.setup(); // most of the time you don't need a name
     gui.add(train.setup("Train", true));
-//    gui.add(ringButton.setup("fill", true));
     gui.add(color.setup("color", ofColor(100, 100, 140), ofColor(0, 0), ofColor(255, 255)));
     gui.add(circleResolution.setup("circle res", 90, 3, 90));
     gui.add(generation_size.setup("Generation count", 10, 1, 250));

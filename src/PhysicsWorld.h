@@ -35,14 +35,12 @@ class World {
         int time = 0;
 
         
-//        vector<b2Vec2> joint_draw_parameters;
     
         vector<float> ground_draw_parameters;
         vector<float>& GetGroundDrawParameters();
     
         vector<vector<vector<float>>> GetBodyDrawParameters();
 
-//        const vector<b2Vec2>& GetJointDrawParameters();
         void DeleteWorld();
     
         // Overloaded assignment operator

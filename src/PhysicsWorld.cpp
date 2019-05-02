@@ -62,10 +62,7 @@ vector<LivingWalker> World::AddWalker(Walker walker) {
         
         //set circle
         b2CircleShape circle;
-        
-//        std::cout << "X Position " << walker.node_locations[i][0] << std::endl;
-        
-//        circle.m_p.Set(walker.node_locations[i][0], walker.node_locations[i][1]);
+
         circle.m_radius = walker.node_radius[i];
         
         //set fixture
@@ -81,8 +78,6 @@ vector<LivingWalker> World::AddWalker(Walker walker) {
     }
 
     b2DistanceJointDef distance_joint_0;
-//    distance_joint_0.bodyA = bodies[0];
-//    distance_joint_0.bodyB = bodies[1];
 
     distance_joint_0.Initialize(bodies[0], bodies[1], positions[0], positions[1]);
     distance_joint_0.collideConnected = true;
@@ -138,8 +133,7 @@ void World::DeleteBody(b2Body* node) {
 
 
 void World::TimeStep() {
-//    revolute_joint -> SetMotorSpeed(cosf(0.5f * time));
-//    joint->SetMotorSpeed(0.1);
+
     time += 1;
     if (time % 60 == 0) {
         joint -> SetMotorSpeed(-joint -> GetMotorSpeed());
@@ -148,13 +142,8 @@ void World::TimeStep() {
     vector<vector<float>> body_draw_parameters = living_walkers[0].Draw();
     float x_position = body_draw_parameters[1][0];
     float y_position = body_draw_parameters[1][1];
-//
-//    std::cout << "X-Position: " << x_position << std::endl;
-//    std::cout << "Y-Position: " << y_position << std::endl;
-//    std::cout << world->GetBodyCount() << std::endl;
+
     b2Vec2 ground_position = groundBody -> GetPosition();
-//    std::cout << ground_position.x << std::endl;
-//    std::cout << ground_position.y << std::endl;
     world->Step( timeStep, velocityIterations, positionIterations);
 }
 
