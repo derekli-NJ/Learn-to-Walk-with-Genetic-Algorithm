@@ -33,18 +33,34 @@ public:
     void circleResolutionChanged(int & circleResolution);
     void ringButtonPressed();
     
+    void Training();
+    void ReadFromFile();
+
+    
+    bool trained = false;
+    
     bool bHide;
         
     ofxFloatSlider radius;
     ofxColorSlider color;
     ofxVec2Slider center;
     ofxIntSlider circleResolution;
-    ofxToggle filled;
+    ofxToggle train;
     ofxButton twoCircles;
     ofxButton ringButton;
     ofxLabel screenSize;
     
+    
+
+    
     ofxPanel gui;
+    ofxPanel training_params;
+    ofxIntSlider generation_size;
+    ofxIntSlider population;
+    ofxIntSlider parent;
+    ofxIntSlider time_step;
+
+
     
     World world;
     
@@ -56,8 +72,6 @@ public:
     ofImage jordans;
     ofImage background;
     
-    ofRectangle rectButton;
-    bool bRectButton;
     
     float scaling_factor = 50.0;
     

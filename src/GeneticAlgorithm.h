@@ -19,16 +19,16 @@
 using std::string;
 using std::vector;
 
-const int time_step_count = 2400;
-const int generation_count = 100;
+static int time_step_count = 2400;
+static int generation_count = 100;
 static int current_generation_count = 1;
-const int population_size = 300;
-const int parent_count = 50;
-const int final_walker_count = 3;
+static int population_size = 300;
+static int parent_count = 50;
+//const int final_walker_count = 3;
 
 const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/1.txt";
 
-static std::default_random_engine generator(1);
+static std::default_random_engine generator(time(NULL));
 //random is time(NULL)
 
 //bounds of mutations for nodes
@@ -50,7 +50,15 @@ const vector<vector<float>> joint_bounds = {lower_angle_bound, upper_angle_bound
 static vector <Walker> best_from_generation;
 static vector <float> best_fitness_from_generation;
 
+//static int generation_count = 100;
 
+void SetGenerationCount(int new_count);
+
+void SetTimeStepCount(int new_count);
+
+void SetPopulationSize(int new_count);
+
+void SetParentCount(int new_count);
 
 float CalculateFitness(b2Body* node, float start_position);
 vector<float> Mate();

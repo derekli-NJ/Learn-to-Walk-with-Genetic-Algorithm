@@ -46,9 +46,10 @@ vector<Walker> InitialGeneration() {
 }
 
 vector<Walker> FindBestWalker() {
-    srand (1);
+    srand (time(NULL));
     vector<Walker> children = InitialGeneration();
     vector<Walker> parents;
+    std::cout << "Inside best walker " << generation_count << std::endl;
     for (int i = 0; i < generation_count; i++) {
         std::cout<<current_generation_count<<std::endl;
         parents = Training(children);
@@ -59,14 +60,16 @@ vector<Walker> FindBestWalker() {
     vector<Walker> best_walkers = Training(children);
     
     WriteWalkerToFile(best_from_generation);
-    return (best_walkers);
+    return best_walkers;
 }
 
 vector<Walker> Training(vector<Walker>& walkers) {
     vector<float> fitness_scores;
     vector<Walker> parents;
     for (Walker& walker : walkers) {
-        fitness_scores.push_back(Simulation(walker));
+        float fitness = Simulation(walker);
+        fitness_scores.push_back(fitness);
+        walker.fitness = fitness;
     }
     for (int i = 0; i < parent_count; i++) {
         int max_element_index = std::max_element(fitness_scores.begin(), fitness_scores.end()) - fitness_scores.begin();
@@ -371,4 +374,21 @@ void WriteWalkerToFile(vector<Walker>& best_walkers) {
         
     }
     my_file.close();
+}
+
+void SetGenerationCount(int new_count) {
+    generation_count = new_count;
+}
+
+
+void SetTimeStepCount(int new_count) {
+    time_step_count = new_count;
+}
+
+void SetPopulationSize(int new_count) {
+    population_size = new_count;
+}
+
+void SetParentCount(int new_count) {
+    parent_count = new_count;
 }
