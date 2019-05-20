@@ -24,7 +24,6 @@ static int generation_count = 100;
 static int current_generation_count = 1;
 static int population_size = 300;
 static int parent_count = 50;
-//const int final_walker_count = 3;
 
 const string file_path = "/Users/derekli/Documents/CS126/final-project-derekli-NJ/data/1.txt";
 

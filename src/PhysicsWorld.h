@@ -31,11 +31,8 @@ class World {
         void TimeStep();
         b2RevoluteJoint* joint;
 
-
         int time = 0;
 
-        
-    
         vector<float> ground_draw_parameters;
         vector<float>& GetGroundDrawParameters();
     
